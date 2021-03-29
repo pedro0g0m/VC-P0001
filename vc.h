@@ -41,5 +41,51 @@ int vc_write_image(char *filename, IVC *image);
 //            FUN합ES: desenvolvidas nas AULAS
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+//Calcula o negativo de uma imagem GREY
 int vc_gray_negative(IVC* srcdst);
+
+//Calcula o negativo de uma imagem RGB
 int vc_rgb_negative(IVC* srcdst);
+
+//Removes the color RED from a RGB picture
+int vc_rgb_get_red_gray(IVC* srcdst);
+
+//Removes the color GREEN from a RGB picture
+int vc_rgb_get_green_gray(IVC* srcdst);
+
+//Removes the color BLUE from a RGB picture
+int vc_rgb_get_blue_gray(IVC* srcdst);
+
+//Transforme a RGB pi to GRAY
+int vc_rgb_to_gray(IVC* src, IVC* dst);
+
+//Converts color RGB to HSV
+int vc_rgb_to_hsv(IVC* srcdst);
+
+//Se encontrar a cor fica branco tudo o resto fica preto.ver colorpicker no google para escolher os intervalos
+int vc_hsv_segmentation(IVC* srcdst, int hmin, int hmax, int smin, int smax, int vmin, int vmax);
+
+//De uma imagem em cinza para uma imagem RGB
+int vc_scale_gray_to_rgb(IVC* src, IVC* dst);
+
+//FUN플O DE BINARIZA플O
+int vc_gray_to_binary(IVC* srcdst, int threshold);
+
+int vc_gray_to_binary_global_mean(IVC* srcdst);
+
+//Use prime numbers to kernel
+int vc_gray_to_binary_midpoint(IVC* src, IVC* dst, int kernel);
+
+int vc_gray_to_binary_niblack(IVC* src, IVC* dst, int kernel, float alfa);
+
+//FUN플O EROS홒
+int vc_binary_erode(IVC* src, IVC* dst, int kernel);
+
+// FUN플O DILATA플O
+int vc_binary_dilate(IVC* src, IVC* dst, int kernel);
+
+//Funcao de fecho (1-> Dilata 2-> erode)
+int vc_binary_close(IVC* src, IVC* dst, int kernel);
+
+////Funcao abrir (1-> erode 2-> dilata)
+int vc_binary_open(IVC* src, IVC* dst, int kernel);

@@ -1,4 +1,14 @@
-﻿  main.c
-  vc.c
-  Generating Code...
+﻿  vc.c
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(659,69): warning C4244: '=': conversion from 'double' to 'unsigned char', possible loss of data
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(827,41): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(828,45): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(829,45): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(795,23): warning C4101: 'value': unreferenced local variable
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(795,11): warning C4101: 'saturation': unreferenced local variable
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(795,6): warning C4101: 'hue': unreferenced local variable
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1112,17): warning C4013: 'pow' undefined; assuming extern returning int
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1118,23): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1071,24): warning C4101: 'total': unreferenced local variable
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1148,16): warning C4101: 'threshold': unreferenced local variable
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1202,16): warning C4101: 'threshold': unreferenced local variable
   VC-P0001.vcxproj -> C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\Debug\VC-P0001.exe
