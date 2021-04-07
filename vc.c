@@ -1259,3 +1259,85 @@ int vc_binary_close(IVC* src, IVC* dst, int kernel)
 
 	return 1;
 }
+
+//Cria Blob
+int vc_binary_blob_labelling(IVC* src, IVC* dst)
+{
+	unsigned char* datasrc = (unsigned char*)src->data;
+	unsigned char* datadst = (unsigned char*)dst->data;
+	int width = src->width;
+	int height = src->height;
+	int bytesperline = src->bytesperline;
+	int channels = src->channels;
+	int x, y;
+	long int pos, posa, posb, posc, posd;
+	int label = 1;
+	int min = 0;
+	int min;
+	unsigned char table[256];
+	// Verificação de erros
+	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL)) return 0;
+	if ((src->width != dst->width) || (src->height != dst->height) || (src->channels != dst->channels)) return 0;
+	if (channels != 1) return 0;
+
+	for (x = 0; x < width; x++)
+	{
+		pos = 0 * bytesperline + x;
+		src->data[pos] == 0;
+
+		pos = (height)*bytesperline + x;
+		src->data[pos] == 0;
+
+	}
+	for (y = 0; y < width; y++)
+	{
+		pos = y * bytesperline + 0;
+		src->data[pos] == 0;
+
+		pos = (height)*bytesperline;
+		src->data[pos] == 0;
+
+	}
+	for (y = 1; y < height - 1; y++)
+	{
+		for (x = 1; x < width - 1; x++)
+		{
+			posa = (y - 1) * bytesperline + (x - 1);
+			posb = (y - 1) * bytesperline + x;
+			posc = (y - 1) * bytesperline + (x + 1);
+			posd = y * bytesperline + (x - 1);
+
+			if (src->data[pos] == 255)
+			{
+				if (src->data[posa] == 0 && src->data[posb] == 0 && src->data[posc] == 0 && src->data[posd] == 0)
+				{
+					src->data[pos] = label;
+					label++;
+				}
+				else
+				{
+					if (src->data[posa] < min)
+					{
+						min = src->data[posa];
+					}
+					if (src->data[posb] < min)
+					{
+						min = src->data[posb];
+					}
+					if (src->data[posc] < min)
+					{
+						min = src->data[posc];
+					}
+					if (src->data[posd] < min)
+					{
+						min = src->data[posd];
+					}
+
+					label = min;
+					label++;
+
+				}
+			}
+		}
+	}
+}

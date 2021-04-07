@@ -496,6 +496,12 @@ int main(void)
 
 #pragma endregion
 
+//Blobs ou etiquetas
+#pragma region 07-04
+	//Funcao ja implementada mas os testes serao feitos na proxima aula
+#pragma endregion
+
+
 
 	printf("Press any key to exit...\n");
 	getchar();

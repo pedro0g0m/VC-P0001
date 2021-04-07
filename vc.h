@@ -87,5 +87,8 @@ int vc_binary_dilate(IVC* src, IVC* dst, int kernel);
 //Funcao de fecho (1-> Dilata 2-> erode)
 int vc_binary_close(IVC* src, IVC* dst, int kernel);
 
-////Funcao abrir (1-> erode 2-> dilata)
+//Funcao abrir (1-> erode 2-> dilata)
 int vc_binary_open(IVC* src, IVC* dst, int kernel);
+
+//Descobre Blob´s de uma imagem
+int vc_binary_blob_labelling(IVC* src, IVC* dst);
