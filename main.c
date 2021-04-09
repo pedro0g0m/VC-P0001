@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "vc.h"
+#include "labelling.h"
 
 //Abrir imagem, alterar e gravar em novo ficheiro
 int main(void)
@@ -456,7 +457,7 @@ int main(void)
 #pragma endregion
 
 // Continuacao da implementacao das funcoes midpoint, niblack
-#pragma region 19-03
+#pragma region Aula19-03
 
 	//Variaveis
 	//IVC* image, * src, * dst;
@@ -487,21 +488,89 @@ int main(void)
 #pragma endregion
 
 // Continuação das atividade da aula anterior
-#pragma region 23-03
+#pragma region Aula23-03
 	//Continuação da implementação da funcao niblack
 #pragma endregion
 
 //Implementação das funçoes de erosao e dilatação
-#pragma region 26-03
+#pragma region Aula26-03
 
 #pragma endregion
 
 //Blobs ou etiquetas
-#pragma region 07-04
+#pragma region Aula07-04
 	//Funcao ja implementada mas os testes serao feitos na proxima aula
 #pragma endregion
 
+//apresentaçao do trabalho pratico+ continuaçao da aula anterior
+#pragma region Aula09-04
+	
+	//Variaveis
+	IVC* image, *src, *dst;
 
+#pragma region vc_binary_blob_labelling
+
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//              Thresh global mean + negative
+
+	image = vc_read_image("Images/Imagens de Teste para Segmentação/coins.pgm");
+
+	if (image == NULL)
+	{
+		printf("ERROR -> vc_read_image(): \n\tFile not found\n");
+		getchar();
+		return 0;
+	}
+
+	vc_gray_to_binary_global_mean(image);
+	vc_gray_negative(image);
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//				Close(k = 3) + Open(k = 3)
+	
+	//dimensoes img src == dst
+	int width = image->width;
+	int height = image->height;
+
+	src = vc_image_new(width, height, 1, 255);
+
+	vc_binary_close(image, src, 3);
+
+	//dimensoes img src == dst
+	int width1 = src->width;
+	int height1 = src->height;
+
+	dst = vc_image_new(width1, height1, 1, 255);
+
+	vc_binary_open(src, dst, 3);
+
+	vc_image_free(image);
+	vc_image_free(src);
+
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//				Etiquetagem (Labelling) 
+	
+	//dimensoes img src == dst
+	int width2 = dst->width;
+	int height2 = dst->height;
+
+	image = vc_image_new(width2, height2, 1, 255);
+	src = vc_image_new(width2, height2, 1, 255);
+
+	vc_binary_blob_labelling(dst, image, src);
+
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	vc_write_image("teste.ppm", image);
+	vc_image_free(dst);
+	vc_image_free(image);
+	
+
+	system("FilterGear teste.ppm");
+
+
+#pragma endregion
+
+#pragma endregion
 
 	printf("Press any key to exit...\n");
 	getchar();

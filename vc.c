@@ -23,21 +23,21 @@
 
 
 // Alocar memória para uma imagem
-IVC *vc_image_new(int width, int height, int channels, int levels)
+IVC* vc_image_new(int width, int height, int channels, int levels)
 {
-	IVC *image = (IVC *) malloc(sizeof(IVC));
+	IVC* image = (IVC*)malloc(sizeof(IVC));
 
-	if(image == NULL) return NULL;
-	if((levels <= 0) || (levels > 255)) return NULL;
+	if (image == NULL) return NULL;
+	if ((levels <= 0) || (levels > 255)) return NULL;
 
 	image->width = width;
 	image->height = height;
 	image->channels = channels;
 	image->levels = levels;
 	image->bytesperline = image->width * image->channels;
-	image->data = (unsigned char *) malloc(image->width * image->height * image->channels * sizeof(char));
+	image->data = (unsigned char*)malloc(image->width * image->height * image->channels * sizeof(char));
 
-	if(image->data == NULL)
+	if (image->data == NULL)
 	{
 		return vc_image_free(image);
 	}
@@ -47,11 +47,11 @@ IVC *vc_image_new(int width, int height, int channels, int levels)
 
 
 // Libertar memória de uma imagem
-IVC *vc_image_free(IVC *image)
+IVC* vc_image_free(IVC* image)
 {
-	if(image != NULL)
+	if (image != NULL)
 	{
-		if(image->data != NULL)
+		if (image->data != NULL)
 		{
 			free(image->data);
 			image->data = NULL;
@@ -70,63 +70,63 @@ IVC *vc_image_free(IVC *image)
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-char *netpbm_get_token(FILE *file, char *tok, int len)
+char* netpbm_get_token(FILE* file, char* tok, int len)
 {
-	char *t;
+	char* t;
 	int c;
-	
-	for(;;)
+
+	for (;;)
 	{
-		while(isspace(c = getc(file)));
-		if(c != '#') break;
+		while (isspace(c = getc(file)));
+		if (c != '#') break;
 		do c = getc(file);
-		while((c != '\n') && (c != EOF));
-		if(c == EOF) break;
+		while ((c != '\n') && (c != EOF));
+		if (c == EOF) break;
 	}
-	
+
 	t = tok;
-	
-	if(c != EOF)
+
+	if (c != EOF)
 	{
 		do
 		{
 			*t++ = c;
 			c = getc(file);
-		} while((!isspace(c)) && (c != '#') && (c != EOF) && (t - tok < len - 1));
-		
-		if(c == '#') ungetc(c, file);
+		} while ((!isspace(c)) && (c != '#') && (c != EOF) && (t - tok < len - 1));
+
+		if (c == '#') ungetc(c, file);
 	}
-	
+
 	*t = 0;
-	
+
 	return tok;
 }
 
 
-long int unsigned_char_to_bit(unsigned char *datauchar, unsigned char *databit, int width, int height)
+long int unsigned_char_to_bit(unsigned char* datauchar, unsigned char* databit, int width, int height)
 {
 	int x, y;
 	int countbits;
 	long int pos, counttotalbytes;
-	unsigned char *p = databit;
+	unsigned char* p = databit;
 
 	*p = 0;
 	countbits = 1;
 	counttotalbytes = 0;
 
-	for(y=0; y<height; y++)
+	for (y = 0; y < height; y++)
 	{
-		for(x=0; x<width; x++)
+		for (x = 0; x < width; x++)
 		{
 			pos = width * y + x;
 
-			if(countbits <= 8)
+			if (countbits <= 8)
 			{
 				// Numa imagem PBM:
 				// 1 = Preto
 				// 0 = Branco
 				//*p |= (datauchar[pos] != 0) << (8 - countbits);
-				
+
 				// Na nossa imagem:
 				// 1 = Branco
 				// 0 = Preto
@@ -134,7 +134,7 @@ long int unsigned_char_to_bit(unsigned char *datauchar, unsigned char *databit, 
 
 				countbits++;
 			}
-			if((countbits > 8) || (x == width - 1))
+			if ((countbits > 8) || (x == width - 1))
 			{
 				p++;
 				*p = 0;
@@ -148,22 +148,22 @@ long int unsigned_char_to_bit(unsigned char *datauchar, unsigned char *databit, 
 }
 
 
-void bit_to_unsigned_char(unsigned char *databit, unsigned char *datauchar, int width, int height)
+void bit_to_unsigned_char(unsigned char* databit, unsigned char* datauchar, int width, int height)
 {
 	int x, y;
 	int countbits;
 	long int pos;
-	unsigned char *p = databit;
+	unsigned char* p = databit;
 
 	countbits = 1;
 
-	for(y=0; y<height; y++)
+	for (y = 0; y < height; y++)
 	{
-		for(x=0; x<width; x++)
+		for (x = 0; x < width; x++)
 		{
 			pos = width * y + x;
 
-			if(countbits <= 8)
+			if (countbits <= 8)
 			{
 				// Numa imagem PBM:
 				// 1 = Preto
@@ -174,10 +174,10 @@ void bit_to_unsigned_char(unsigned char *databit, unsigned char *datauchar, int 
 				// 1 = Branco
 				// 0 = Preto
 				datauchar[pos] = (*p & (1 << (8 - countbits))) ? 0 : 1;
-				
+
 				countbits++;
 			}
-			if((countbits > 8) || (x == width - 1))
+			if ((countbits > 8) || (x == width - 1))
 			{
 				p++;
 				countbits = 1;
@@ -187,44 +187,44 @@ void bit_to_unsigned_char(unsigned char *databit, unsigned char *datauchar, int 
 }
 
 
-IVC *vc_read_image(char *filename)
+IVC* vc_read_image(char* filename)
 {
-	FILE *file = NULL;
-	IVC *image = NULL;
-	unsigned char *tmp;
+	FILE* file = NULL;
+	IVC* image = NULL;
+	unsigned char* tmp;
 	char tok[20];
 	long int size, sizeofbinarydata;
 	int width, height, channels;
 	int levels = 255;
 	int v;
-	
+
 	// Abre o ficheiro
-	if((file = fopen(filename, "rb")) != NULL)
+	if ((file = fopen(filename, "rb")) != NULL)
 	{
 		// Efectua a leitura do header
 		netpbm_get_token(file, tok, sizeof(tok));
 
-		if(strcmp(tok, "P4") == 0) { channels = 1; levels = 1; }	// Se PBM (Binary [0,1])
-		else if(strcmp(tok, "P5") == 0) channels = 1;				// Se PGM (Gray [0,MAX(level,255)])
-		else if(strcmp(tok, "P6") == 0) channels = 3;				// Se PPM (RGB [0,MAX(level,255)])
+		if (strcmp(tok, "P4") == 0) { channels = 1; levels = 1; }	// Se PBM (Binary [0,1])
+		else if (strcmp(tok, "P5") == 0) channels = 1;				// Se PGM (Gray [0,MAX(level,255)])
+		else if (strcmp(tok, "P6") == 0) channels = 3;				// Se PPM (RGB [0,MAX(level,255)])
 		else
 		{
-			#ifdef VC_DEBUG
+#ifdef VC_DEBUG
 			printf("ERROR -> vc_read_image():\n\tFile is not a valid PBM, PGM or PPM file.\n\tBad magic number!\n");
-			#endif
+#endif
 
 			fclose(file);
 			return NULL;
 		}
-		
-		if(levels == 1) // PBM
+
+		if (levels == 1) // PBM
 		{
-			if(sscanf(netpbm_get_token(file, tok, sizeof(tok)), "%d", &width) != 1 || 
-			   sscanf(netpbm_get_token(file, tok, sizeof(tok)), "%d", &height) != 1)
+			if (sscanf(netpbm_get_token(file, tok, sizeof(tok)), "%d", &width) != 1 ||
+				sscanf(netpbm_get_token(file, tok, sizeof(tok)), "%d", &height) != 1)
 			{
-				#ifdef VC_DEBUG
+#ifdef VC_DEBUG
 				printf("ERROR -> vc_read_image():\n\tFile is not a valid PBM file.\n\tBad size!\n");
-				#endif
+#endif
 
 				fclose(file);
 				return NULL;
@@ -232,21 +232,21 @@ IVC *vc_read_image(char *filename)
 
 			// Aloca memória para imagem
 			image = vc_image_new(width, height, channels, levels);
-			if(image == NULL) return NULL;
+			if (image == NULL) return NULL;
 
 			sizeofbinarydata = (image->width / 8 + ((image->width % 8) ? 1 : 0)) * image->height;
-			tmp = (unsigned char *) malloc(sizeofbinarydata);
-			if(tmp == NULL) return 0;
+			tmp = (unsigned char*)malloc(sizeofbinarydata);
+			if (tmp == NULL) return 0;
 
-			#ifdef VC_DEBUG
+#ifdef VC_DEBUG
 			printf("\nchannels=%d w=%d h=%d levels=%d\n", image->channels, image->width, image->height, levels);
-			#endif
+#endif
 
-			if((v = fread(tmp, sizeof(unsigned char), sizeofbinarydata, file)) != sizeofbinarydata)
+			if ((v = fread(tmp, sizeof(unsigned char), sizeofbinarydata, file)) != sizeofbinarydata)
 			{
-				#ifdef VC_DEBUG
+#ifdef VC_DEBUG
 				printf("ERROR -> vc_read_image():\n\tPremature EOF on file.\n");
-				#endif
+#endif
 
 				vc_image_free(image);
 				fclose(file);
@@ -260,13 +260,13 @@ IVC *vc_read_image(char *filename)
 		}
 		else // PGM ou PPM
 		{
-			if(sscanf(netpbm_get_token(file, tok, sizeof(tok)), "%d", &width) != 1 || 
-			   sscanf(netpbm_get_token(file, tok, sizeof(tok)), "%d", &height) != 1 || 
-			   sscanf(netpbm_get_token(file, tok, sizeof(tok)), "%d", &levels) != 1 || levels <= 0 || levels > 255)
+			if (sscanf(netpbm_get_token(file, tok, sizeof(tok)), "%d", &width) != 1 ||
+				sscanf(netpbm_get_token(file, tok, sizeof(tok)), "%d", &height) != 1 ||
+				sscanf(netpbm_get_token(file, tok, sizeof(tok)), "%d", &levels) != 1 || levels <= 0 || levels > 255)
 			{
-				#ifdef VC_DEBUG
+#ifdef VC_DEBUG
 				printf("ERROR -> vc_read_image():\n\tFile is not a valid PGM or PPM file.\n\tBad size!\n");
-				#endif
+#endif
 
 				fclose(file);
 				return NULL;
@@ -274,64 +274,64 @@ IVC *vc_read_image(char *filename)
 
 			// Aloca memória para imagem
 			image = vc_image_new(width, height, channels, levels);
-			if(image == NULL) return NULL;
+			if (image == NULL) return NULL;
 
-			#ifdef VC_DEBUG
+#ifdef VC_DEBUG
 			printf("\nchannels=%d w=%d h=%d levels=%d\n", image->channels, image->width, image->height, levels);
-			#endif
+#endif
 
 			size = image->width * image->height * image->channels;
 
-			if((v = fread(image->data, sizeof(unsigned char), size, file)) != size)
+			if ((v = fread(image->data, sizeof(unsigned char), size, file)) != size)
 			{
-				#ifdef VC_DEBUG
+#ifdef VC_DEBUG
 				printf("ERROR -> vc_read_image():\n\tPremature EOF on file.\n");
-				#endif
+#endif
 
 				vc_image_free(image);
 				fclose(file);
 				return NULL;
 			}
 		}
-		
+
 		fclose(file);
 	}
 	else
 	{
-		#ifdef VC_DEBUG
+#ifdef VC_DEBUG
 		printf("ERROR -> vc_read_image():\n\tFile not found.\n");
-		#endif
+#endif
 	}
-	
+
 	return image;
 }
 
 
-int vc_write_image(char *filename, IVC *image)
+int vc_write_image(char* filename, IVC* image)
 {
-	FILE *file = NULL;
-	unsigned char *tmp;
+	FILE* file = NULL;
+	unsigned char* tmp;
 	long int totalbytes, sizeofbinarydata;
-	
-	if(image == NULL) return 0;
 
-	if((file = fopen(filename, "wb")) != NULL)
+	if (image == NULL) return 0;
+
+	if ((file = fopen(filename, "wb")) != NULL)
 	{
-		if(image->levels == 1)
+		if (image->levels == 1)
 		{
 			sizeofbinarydata = (image->width / 8 + ((image->width % 8) ? 1 : 0)) * image->height + 1;
-			tmp = (unsigned char *) malloc(sizeofbinarydata);
-			if(tmp == NULL) return 0;
-			
+			tmp = (unsigned char*)malloc(sizeofbinarydata);
+			if (tmp == NULL) return 0;
+
 			fprintf(file, "%s %d %d\n", "P4", image->width, image->height);
-			
+
 			totalbytes = unsigned_char_to_bit(image->data, tmp, image->width, image->height);
 			printf("Total = %ld\n", totalbytes);
-			if(fwrite(tmp, sizeof(unsigned char), totalbytes, file) != totalbytes)
+			if (fwrite(tmp, sizeof(unsigned char), totalbytes, file) != totalbytes)
 			{
-				#ifdef VC_DEBUG
+#ifdef VC_DEBUG
 				fprintf(stderr, "ERROR -> vc_read_image():\n\tError writing PBM, PGM or PPM file.\n");
-				#endif
+#endif
 
 				fclose(file);
 				free(tmp);
@@ -343,23 +343,23 @@ int vc_write_image(char *filename, IVC *image)
 		else
 		{
 			fprintf(file, "%s %d %d 255\n", (image->channels == 1) ? "P5" : "P6", image->width, image->height);
-		
-			if(fwrite(image->data, image->bytesperline, image->height, file) != image->height)
+
+			if (fwrite(image->data, image->bytesperline, image->height, file) != image->height)
 			{
-				#ifdef VC_DEBUG
+#ifdef VC_DEBUG
 				fprintf(stderr, "ERROR -> vc_read_image():\n\tError writing PBM, PGM or PPM file.\n");
-				#endif
+#endif
 
 				fclose(file);
 				return 0;
 			}
 		}
-		
+
 		fclose(file);
 
 		return 1;
 	}
-	
+
 	return 0;
 }
 
@@ -434,9 +434,9 @@ int vc_rgb_negative(IVC* srcdst)
 		printf("ERROR -> vc_rgb_negative():\n\tImage is empty!\n");
 		getchar();
 		return 0;
-	}	
+	}
 
-	if (srcdst->width <= 0 || srcdst->height <= 0 || srcdst->data == NULL) 
+	if (srcdst->width <= 0 || srcdst->height <= 0 || srcdst->data == NULL)
 	{
 		printf("ERROR -> vc_rgb_negative():\n\tDimensoes or data are missing!\n");
 		getchar();
@@ -505,8 +505,8 @@ int vc_rgb_get_red_gray(IVC* srcdst) {
 		{
 			pos = y * bytesperline + x * channels;
 
-			data[pos + 1] =  data[pos];
-			data[pos + 2] =  data[pos];
+			data[pos + 1] = data[pos];
+			data[pos + 2] = data[pos];
 		}
 	}
 
@@ -552,8 +552,8 @@ int vc_rgb_get_green_gray(IVC* srcdst) {
 		{
 			pos = y * bytesperline + x * channels;
 
-			data[pos] =  data[pos + 1];
-			data[pos + 2] =  data[pos + 1];
+			data[pos] = data[pos + 1];
+			data[pos + 2] = data[pos + 1];
 		}
 	}
 
@@ -599,8 +599,8 @@ int vc_rgb_get_blue_gray(IVC* srcdst) {
 		{
 			pos = y * bytesperline + x * channels;
 
-			data[pos] =  data[pos + 2];
-			data[pos + 1] =  data[pos + 2];
+			data[pos] = data[pos + 2];
+			data[pos + 1] = data[pos + 2];
 		}
 	}
 
@@ -665,7 +665,7 @@ int vc_rgb_to_gray(IVC* src, IVC* dst) {
 }
 
 //Converts color RGB to HSV
-int vc_rgb_to_hsv(IVC* srcdst){
+int vc_rgb_to_hsv(IVC* srcdst) {
 	unsigned char* data = (unsigned char*)srcdst->data;
 	int width = srcdst->width;
 	int height = srcdst->height;
@@ -696,7 +696,7 @@ int vc_rgb_to_hsv(IVC* srcdst){
 		getchar();
 		return 0;
 	}
-	
+
 	size = width * height * channels;
 
 	for (i = 0; i < size; i = i + channels)
@@ -792,7 +792,6 @@ int vc_hsv_segmentation(IVC* srcdst, int hmin, int hmax, int smin, int smax, int
 	int height = srcdst->height;
 	int bytesperline = srcdst->bytesperline;
 	int channels = srcdst->channels;
-	int hue, saturation, value;
 	int h, s, v; // h=[0, 360] s=[0, 100] v=[0, 100]
 	int i, size;
 
@@ -846,7 +845,7 @@ int vc_hsv_segmentation(IVC* srcdst, int hmin, int hmax, int smin, int smax, int
 }
 
 //De uma imagem em cinza para uma imagem RGB
-int vc_scale_gray_to_rgb(IVC* src, IVC* dst){
+int vc_scale_gray_to_rgb(IVC* src, IVC* dst) {
 	unsigned char* datasrc = (unsigned char*)src->data;
 	int bytesperlin_src = src->width * src->channels;
 	int channels_src = src->channels;
@@ -920,7 +919,7 @@ int vc_scale_gray_to_rgb(IVC* src, IVC* dst){
 	return 1;
 }
 
-//FUNÇÃO DE BINARIZAÇÃO
+//FUNÇÃO DE BINARIZAÇÃO com threshold manual
 int vc_gray_to_binary(IVC* srcdst, int threshold)
 {
 	unsigned char* data = (unsigned char*)srcdst->data;
@@ -952,6 +951,7 @@ int vc_gray_to_binary(IVC* srcdst, int threshold)
 	return 1;
 }
 
+//FUNÇÃO DE BINARIZAÇÃO com threshold calculado
 int vc_gray_to_binary_global_mean(IVC* srcdst)
 {
 	int width = srcdst->width;
@@ -968,7 +968,7 @@ int vc_gray_to_binary_global_mean(IVC* srcdst)
 		somatorio += srcdst->data[x];
 	}
 
-	media = somatorio / tamanho;
+	media = (double)somatorio / tamanho;
 
 	for (x = 0; x < tamanho; x++)
 	{
@@ -987,6 +987,7 @@ int vc_gray_to_binary_global_mean(IVC* srcdst)
 
 }
 
+//Use prime numbers to kernel
 int vc_gray_to_binary_midpoint(IVC* src, IVC* dst, int kernel)
 {
 	unsigned char* datasrc = (unsigned char*)src->data;
@@ -1058,7 +1059,8 @@ int vc_gray_to_binary_midpoint(IVC* src, IVC* dst, int kernel)
 	return 1;
 }
 
-int vc_gray_to_binary_niblack(IVC* src, IVC* dst, int kernel, float alfa) 
+//MUITO LENTO E NAO FUNCIONA DIREITO!!!!
+int vc_gray_to_binary_niblack(IVC* src, IVC* dst, int kernel, float alfa)
 {
 	unsigned char* datasrc = (unsigned char*)src->data;
 	unsigned char* datadst = (unsigned char*)dst->data;
@@ -1068,7 +1070,7 @@ int vc_gray_to_binary_niblack(IVC* src, IVC* dst, int kernel, float alfa)
 	int channels = src->channels;
 	int x, y, xx, yy;
 	int offset = (kernel - 1) / 2;
-	float mean, std, sum, total, numberOfPixels;
+	float mean, std, sum, numberOfPixels;
 	long int pos, posk;
 	unsigned char threshold;
 
@@ -1083,9 +1085,9 @@ int vc_gray_to_binary_niblack(IVC* src, IVC* dst, int kernel, float alfa)
 			std = 0.0;
 			numberOfPixels = 0.0;
 
-			for (yy = -offset; yy <= offset; yy++) 
+			for (yy = -offset; yy <= offset; yy++)
 			{
-				for (xx = -offset; xx <= offset; xx++) 
+				for (xx = -offset; xx <= offset; xx++)
 				{
 					if ((y + yy >= 0) && (y + yy < height) && (x + xx >= 0) && (x + xx < width))
 					{
@@ -1131,7 +1133,7 @@ int vc_gray_to_binary_niblack(IVC* src, IVC* dst, int kernel, float alfa)
 }
 
 // FUNÇÃO DILATAÇÃO
-int vc_binary_dilate(IVC * src, IVC * dst, int kernel)
+int vc_binary_dilate(IVC* src, IVC* dst, int kernel)
 {
 	unsigned char* datasrc = (unsigned char*)src->data;
 	unsigned char* datadst = (unsigned char*)dst->data;
@@ -1139,18 +1141,33 @@ int vc_binary_dilate(IVC * src, IVC * dst, int kernel)
 	int height = src->height;
 	int bytesperline = src->bytesperline;
 	int channels = src->channels;
-	int x, y;
-	int xx, yy;
-	int xxyymax = (kernel - 1) / 2;
-	int xxyymin = -xxyymax;
+	int x, y, xx, yy;
+	int offset = (kernel - 1) / 2;
 	int max, min;
 	long int pos, posk;
-	unsigned char threshold;
 	int aux = 0;
-	// Verificação de erros
-	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL)) return 0;
-	if ((src->width != dst->width) || (src->height != dst->height) || (src->channels != dst->channels)) return 0;
-	if (channels != 1) return 0;
+
+	//verificar erros
+	if (src == NULL)
+	{
+		printf("ERROR -> vc_binary_dilate():\n\tImage is empty!\n");
+		getchar();
+		return 0;
+	}
+
+	if (src->width <= 0 || src->height <= 0 || src->data == NULL)
+	{
+		printf("ERROR -> vc_binary_dilate():\n\tDimensoes or data are missing!\n");
+		getchar();
+		return 0;
+	}
+
+	if (src->channels != 1 || dst->channels != 1)
+	{
+		printf("ERROR -> vc_binary_dilate():\n\tNot Gray Image!\n");
+		getchar();
+		return 0;
+	}
 
 	for (y = 0; y < height; y++)
 	{
@@ -1162,15 +1179,18 @@ int vc_binary_dilate(IVC * src, IVC * dst, int kernel)
 			min = datasrc[pos];
 			aux = 0;
 			// NxM Vizinhos
-			for (yy = xxyymin; yy <= xxyymax; yy++)
+			for (yy = -offset; yy <= offset; yy++)
 			{
-				for (xx = xxyymin; xx <= xxyymax; xx++)
+				for (xx = -offset; xx <= offset; xx++)
 				{
 					if ((y + yy >= 0) && (y + yy < height) && (x + xx >= 0) && (x + xx < width))
 					{
 						posk = (y + yy) * bytesperline + (x + xx) * channels;
 
-						if (datasrc[posk] == 255)aux = 255;
+						if (datasrc[posk] == 255)
+						{
+							aux = 255;
+						}
 					}
 				}
 			}
@@ -1193,18 +1213,33 @@ int vc_binary_erode(IVC* src, IVC* dst, int kernel)
 	int height = src->height;
 	int bytesperline = src->bytesperline;
 	int channels = src->channels;
-	int x, y;
-	int xx, yy;
-	int xxyymax = (kernel - 1) / 2;
-	int xxyymin = -xxyymax;
+	int x, y, xx, yy;
+	int offset = (kernel - 1) / 2;
 	int max, min;
 	long int pos, posk;
-	unsigned char threshold;
 	int aux = 255;
-	// Verificação de erros
-	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL)) return 0;
-	if ((src->width != dst->width) || (src->height != dst->height) || (src->channels != dst->channels)) return 0;
-	if (channels != 1) return 0;
+
+	//verificar erros
+	if (src == NULL)
+	{
+		printf("ERROR -> vc_binary_erode():\n\tImage is empty!\n");
+		getchar();
+		return 0;
+	}
+
+	if (src->width <= 0 || src->height <= 0 || src->data == NULL)
+	{
+		printf("ERROR -> vc_binary_erode():\n\tDimensoes or data are missing!\n");
+		getchar();
+		return 0;
+	}
+
+	if (src->channels != 1 || dst->channels != 1)
+	{
+		printf("ERROR -> vc_binary_erode():\n\tNot Gray Image!\n");
+		getchar();
+		return 0;
+	}
 
 	for (y = 0; y < height; y++)
 	{
@@ -1216,15 +1251,18 @@ int vc_binary_erode(IVC* src, IVC* dst, int kernel)
 			min = datasrc[pos];
 			aux = 255;
 			// NxM Vizinhos
-			for (yy = xxyymin; yy <= xxyymax; yy++)
+			for (yy = -offset; yy <= offset; yy++)
 			{
-				for (xx = xxyymin; xx <= xxyymax; xx++)
+				for (xx = -offset; xx <= offset; xx++)
 				{
 					if ((y + yy >= 0) && (y + yy < height) && (x + xx >= 0) && (x + xx < width))
 					{
 						posk = (y + yy) * bytesperline + (x + xx) * channels;
 
-						if (datasrc[posk] == 0)aux = 0;
+						if (datasrc[posk] == 0)
+						{
+							aux = 0;
+						}
 					}
 				}
 			}
@@ -1241,6 +1279,8 @@ int vc_binary_erode(IVC* src, IVC* dst, int kernel)
 //FUNÇÃO ABERTURA
 int vc_binary_open(IVC* src, IVC* dst, int kernel)
 {
+	//Verificação de erros realizada nas funcoes invocadas abaixo
+
 	IVC* aux = vc_image_new(src->width, src->height, 1, src->levels);
 	vc_binary_erode(src, aux, kernel);
 	vc_binary_dilate(aux, dst, kernel);
@@ -1252,92 +1292,12 @@ int vc_binary_open(IVC* src, IVC* dst, int kernel)
 //FUNÇÃO FECHO
 int vc_binary_close(IVC* src, IVC* dst, int kernel)
 {
+	//Verificação de erros realizada nas funcoes invocadas abaixo
+
 	IVC* aux = vc_image_new(src->width, src->height, 1, src->levels);
 	vc_binary_dilate(src, aux, kernel);
 	vc_binary_erode(aux, dst, kernel);
 	vc_image_free(aux);
 
 	return 1;
-}
-
-//Cria Blob
-int vc_binary_blob_labelling(IVC* src, IVC* dst)
-{
-	unsigned char* datasrc = (unsigned char*)src->data;
-	unsigned char* datadst = (unsigned char*)dst->data;
-	int width = src->width;
-	int height = src->height;
-	int bytesperline = src->bytesperline;
-	int channels = src->channels;
-	int x, y;
-	long int pos, posa, posb, posc, posd;
-	int label = 1;
-	int min = 0;
-	int min;
-	unsigned char table[256];
-	// Verificação de erros
-	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL)) return 0;
-	if ((src->width != dst->width) || (src->height != dst->height) || (src->channels != dst->channels)) return 0;
-	if (channels != 1) return 0;
-
-	for (x = 0; x < width; x++)
-	{
-		pos = 0 * bytesperline + x;
-		src->data[pos] == 0;
-
-		pos = (height)*bytesperline + x;
-		src->data[pos] == 0;
-
-	}
-	for (y = 0; y < width; y++)
-	{
-		pos = y * bytesperline + 0;
-		src->data[pos] == 0;
-
-		pos = (height)*bytesperline;
-		src->data[pos] == 0;
-
-	}
-	for (y = 1; y < height - 1; y++)
-	{
-		for (x = 1; x < width - 1; x++)
-		{
-			posa = (y - 1) * bytesperline + (x - 1);
-			posb = (y - 1) * bytesperline + x;
-			posc = (y - 1) * bytesperline + (x + 1);
-			posd = y * bytesperline + (x - 1);
-
-			if (src->data[pos] == 255)
-			{
-				if (src->data[posa] == 0 && src->data[posb] == 0 && src->data[posc] == 0 && src->data[posd] == 0)
-				{
-					src->data[pos] = label;
-					label++;
-				}
-				else
-				{
-					if (src->data[posa] < min)
-					{
-						min = src->data[posa];
-					}
-					if (src->data[posb] < min)
-					{
-						min = src->data[posb];
-					}
-					if (src->data[posc] < min)
-					{
-						min = src->data[posc];
-					}
-					if (src->data[posd] < min)
-					{
-						min = src->data[posd];
-					}
-
-					label = min;
-					label++;
-
-				}
-			}
-		}
-	}
 }

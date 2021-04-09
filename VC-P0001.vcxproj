@@ -139,10 +139,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="labelling.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="vc.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="labelling.h" />
     <ClInclude Include="vc.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

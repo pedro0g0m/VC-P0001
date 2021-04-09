@@ -68,14 +68,16 @@ int vc_hsv_segmentation(IVC* srcdst, int hmin, int hmax, int smin, int smax, int
 //De uma imagem em cinza para uma imagem RGB
 int vc_scale_gray_to_rgb(IVC* src, IVC* dst);
 
-//FUN플O DE BINARIZA플O
+//FUN플O DE BINARIZA플O com threshold manual
 int vc_gray_to_binary(IVC* srcdst, int threshold);
 
+//FUN플O DE BINARIZA플O com threshold calculado
 int vc_gray_to_binary_global_mean(IVC* srcdst);
 
 //Use prime numbers to kernel
 int vc_gray_to_binary_midpoint(IVC* src, IVC* dst, int kernel);
 
+//MUITO LENTO NAO FUNCIONA
 int vc_gray_to_binary_niblack(IVC* src, IVC* dst, int kernel, float alfa);
 
 //FUN플O EROS홒
@@ -89,6 +91,3 @@ int vc_binary_close(IVC* src, IVC* dst, int kernel);
 
 //Funcao abrir (1-> erode 2-> dilata)
 int vc_binary_open(IVC* src, IVC* dst, int kernel);
-
-//Descobre Blob큦 de uma imagem
-int vc_binary_blob_labelling(IVC* src, IVC* dst);

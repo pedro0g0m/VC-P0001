@@ -21,9 +21,15 @@
     <ClCompile Include="vc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="labelling.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="labelling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
