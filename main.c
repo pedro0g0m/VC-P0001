@@ -502,7 +502,7 @@ int main(void)
 	//Funcao ja implementada mas os testes serao feitos na proxima aula
 #pragma endregion
 
-//apresentaçao do trabalho pratico+ continuaçao da aula anterior
+//apresentaçao do trabalho pratico + continuaçao da aula anterior
 #pragma region Aula09-04
 	
 	//Variaveis
@@ -571,6 +571,84 @@ int main(void)
 #pragma endregion
 
 #pragma endregion
+
+
+#pragma region Aula14-04
+
+	//IVC* image, * src, * dst, *labelling;
+	//OVC* blobs;
+	//int nlabels = 0;
+
+//#pragma region ajustar
+//
+//	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//	//              Thresh global mean + negative
+//
+//	image = vc_read_image("Images/Imagens de Teste para Segmentação/coins.pgm");
+//
+//	if (image == NULL)
+//	{
+//		printf("ERROR -> vc_read_image(): \n\tFile not found\n");
+//		getchar();
+//		return 0;
+//	}
+//
+//	vc_gray_to_binary_global_mean(image);
+//	vc_gray_negative(image);
+//	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//	//				Close(k = 3) + Open(k = 3)
+//
+//	//dimensoes img src == dst
+//	int width = image->width;
+//	int height = image->height;
+//
+//	src = vc_image_new(width, height, 1, 255);
+//
+//	vc_binary_close(image, src, 3);
+//
+//	//dimensoes img src == dst
+//	int width1 = src->width;
+//	int height1 = src->height;
+//
+//	dst = vc_image_new(width1, height1, 1, 255);
+//
+//	vc_binary_open(src, dst, 3);
+//
+//	vc_image_free(image);
+//	vc_image_free(src);
+//
+//	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//	//				Etiquetagem (Labelling) 
+//
+//	//dimensoes img src == dst
+//	int width2 = dst->width;
+//	int height2 = dst->height;
+//
+//	image = vc_image_new(width2, height2, 1, 255);
+//	src = vc_image_new(width2, height2, 1, 255);
+//
+//	vc_binary_blob_labelling(dst, image, src);
+//
+//	labelling = vc_image_new(dst->width, dst->height, 1, 255);
+//
+//	blobs = vc_binary_blob_labelling(dst, labelling, &nlabels);
+//
+//	vc_binary_blob_info(labelling, blobs, nlabels);
+//
+//	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//
+//	vc_write_image("teste.ppm", image);
+//	vc_image_free(dst);
+//	vc_image_free(image);
+//
+//
+//	system("FilterGear teste.ppm");
+//
+//
+//#pragma endregion
+
+#pragma endregion
+
 
 	printf("Press any key to exit...\n");
 	getchar();

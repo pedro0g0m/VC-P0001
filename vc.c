@@ -363,9 +363,10 @@ int vc_write_image(char* filename, IVC* image)
 	return 0;
 }
 
-
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //            FUNÇÕES: desenvolvidas nas AULAS
+// 
+//		 [  Pedro Moreira - pedrogmoreria94@gmail.com  ]
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //Calcula o negativo de uma imagem GREY
@@ -1300,4 +1301,66 @@ int vc_binary_close(IVC* src, IVC* dst, int kernel)
 	vc_image_free(aux);
 
 	return 1;
+}
+
+//Deteção de contornos Prewitt
+int vc_gray_edge_prewitt(IVC* src, IVC* dst, float th)
+{
+	unsigned char* datasrc = (unsigned char*)src->data;
+	unsigned char* datadst = (unsigned char*)dst->data;
+	int width = src->width;
+	int height = src->height;
+	int bytesperline = src->bytesperline;
+	int channels = src->channels;
+	int x, y;
+	float magn;
+	long int posx, posy, posa, posb, posc, posd, pose, posf, posg, posh, fx, fy;
+
+	//verificar erros
+	if (src == NULL)
+	{
+		printf("ERROR -> vc_gray_edge_prewitt():\n\tImage is empty!\n");
+		getchar();
+		return 0;
+	}
+
+	if ((src->width != dst->width) || (src->height != dst->height) || (src->channels != dst->channels))
+	{
+		printf("ERROR -> vc_gray_edge_prewitt():\n\tDimensoes or data are missing!\n");
+		getchar();
+		return 0;
+	}
+
+	if (src->channels != 1 || dst->channels != 1)
+	{
+		printf("ERROR -> vc_gray_edge_prewitt():\n\tNot Gray Image!\n");
+		getchar();
+		return 0;
+	}
+
+	for (y = 0; y < height; y++)
+	{
+		for (x = 0; x < width; x++)
+		{
+			posx = y * bytesperline + x;
+			posa = (y - 1) * bytesperline + (x - 1);
+			posb = (y - 1) * bytesperline + x;
+			posc = (y - 1) * bytesperline + (x + 1);
+			posd = y * bytesperline + (x - 1);
+			pose = y * bytesperline + (x + 1);
+			posf = (y + 1) * bytesperline + (x - 1);
+			posg = (y + 1) * bytesperline + x;
+			posh = (y + 1) * bytesperline + (x + 1);
+
+			fx = (datasrc[posa] * (-1) + datasrc[posc] + datasrc[posd] * (-1) + datasrc[pose] + datasrc[posf] * (-1) + datasrc[posh]) / 3;
+			fy = (datasrc[posa] * (-1) + datasrc[posf] + datasrc[posb] * (-1) + datasrc[posg] + datasrc[posc] * (-1) + datasrc[posh]) / 3;
+
+			magn = sqrt(fx * fx + fy * fy);
+
+			if (magn > th)datadst[posx] = 255;
+			else datadst[posx] = 0;
+
+		}
+	}
+
 }

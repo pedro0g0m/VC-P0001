@@ -91,3 +91,6 @@ int vc_binary_close(IVC* src, IVC* dst, int kernel);
 
 //Funcao abrir (1-> erode 2-> dilata)
 int vc_binary_open(IVC* src, IVC* dst, int kernel);
+
+//Deteção de contornos Prewitt
+int vc_gray_edge_prewitt(IVC* src, IVC* dst, float th);

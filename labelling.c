@@ -10,10 +10,10 @@
 // dst		: Imagem grayscale (irá conter as etiquetas)
 // nlabels	: Endereço de memória de uma variável, onde será armazenado o número de etiquetas encontradas.
 // OVC*		: Retorna um array de estruturas de blobs (objectos), com respectivas etiquetas. É necessário libertar posteriormente esta memória.
-OVC* vc_binary_blob_labelling(IVC *src, IVC *dst, int *nlabels)
+OVC* vc_binary_blob_labelling(IVC* src, IVC* dst, int* nlabels)
 {
-	unsigned char *datasrc = (unsigned char *)src->data;
-	unsigned char *datadst = (unsigned char *)dst->data;
+	unsigned char* datasrc = (unsigned char*)src->data;
+	unsigned char* datadst = (unsigned char*)dst->data;
 	int width = src->width;
 	int height = src->height;
 	int bytesperline = src->bytesperline;
@@ -25,7 +25,7 @@ OVC* vc_binary_blob_labelling(IVC *src, IVC *dst, int *nlabels)
 	int labelarea[256] = { 0 };
 	int label = 1; // Etiqueta inicial.
 	int num, tmplabel;
-	OVC *blobs; // Apontador para array de blobs (objectos) que será retornado desta função.
+	OVC* blobs; // Apontador para array de blobs (objectos) que será retornado desta função.
 
 				// Verificação de erros
 	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL)) return 0;
@@ -39,27 +39,27 @@ OVC* vc_binary_blob_labelling(IVC *src, IVC *dst, int *nlabels)
 	// Todos os pixéis de primeiro plano devem obrigatóriamente ter valor 255
 	// Serão atribuídas etiquetas no intervalo [1,254]
 	// Este algoritmo está assim limitado a 255 labels
-	for (i = 0, size = bytesperline * height; i<size; i++)
+	for (i = 0, size = bytesperline * height; i < size; i++)
 	{
 		if (datadst[i] != 0) datadst[i] = 255;
 	}
 
 	// Limpa os rebordos da imagem binária
-	for (y = 0; y<height; y++)
+	for (y = 0; y < height; y++)
 	{
 		datadst[y * bytesperline + 0 * channels] = 0;
 		datadst[y * bytesperline + (width - 1) * channels] = 0;
 	}
-	for (x = 0; x<width; x++)
+	for (x = 0; x < width; x++)
 	{
 		datadst[0 * bytesperline + x * channels] = 0;
 		datadst[(height - 1) * bytesperline + x * channels] = 0;
 	}
 
 	// Efectua a etiquetagem
-	for (y = 1; y<height - 1; y++)
+	for (y = 1; y < height - 1; y++)
 	{
-		for (x = 1; x<width - 1; x++)
+		for (x = 1; x < width - 1; x++)
 		{
 			// Kernel:
 			// A B C
@@ -102,7 +102,7 @@ OVC* vc_binary_blob_labelling(IVC *src, IVC *dst, int *nlabels)
 					{
 						if (labeltable[datadst[posA]] != num)
 						{
-							for (tmplabel = labeltable[datadst[posA]], a = 1; a<label; a++)
+							for (tmplabel = labeltable[datadst[posA]], a = 1; a < label; a++)
 							{
 								if (labeltable[a] == tmplabel)
 								{
@@ -115,7 +115,7 @@ OVC* vc_binary_blob_labelling(IVC *src, IVC *dst, int *nlabels)
 					{
 						if (labeltable[datadst[posB]] != num)
 						{
-							for (tmplabel = labeltable[datadst[posB]], a = 1; a<label; a++)
+							for (tmplabel = labeltable[datadst[posB]], a = 1; a < label; a++)
 							{
 								if (labeltable[a] == tmplabel)
 								{
@@ -128,7 +128,7 @@ OVC* vc_binary_blob_labelling(IVC *src, IVC *dst, int *nlabels)
 					{
 						if (labeltable[datadst[posC]] != num)
 						{
-							for (tmplabel = labeltable[datadst[posC]], a = 1; a<label; a++)
+							for (tmplabel = labeltable[datadst[posC]], a = 1; a < label; a++)
 							{
 								if (labeltable[a] == tmplabel)
 								{
@@ -141,7 +141,7 @@ OVC* vc_binary_blob_labelling(IVC *src, IVC *dst, int *nlabels)
 					{
 						if (labeltable[datadst[posD]] != num)
 						{
-							for (tmplabel = labeltable[datadst[posC]], a = 1; a<label; a++)
+							for (tmplabel = labeltable[datadst[posC]], a = 1; a < label; a++)
 							{
 								if (labeltable[a] == tmplabel)
 								{
@@ -156,9 +156,9 @@ OVC* vc_binary_blob_labelling(IVC *src, IVC *dst, int *nlabels)
 	}
 
 	// Volta a etiquetar a imagem
-	for (y = 1; y<height - 1; y++)
+	for (y = 1; y < height - 1; y++)
 	{
-		for (x = 1; x<width - 1; x++)
+		for (x = 1; x < width - 1; x++)
 		{
 			posX = y * bytesperline + x * channels; // X
 
@@ -173,16 +173,16 @@ OVC* vc_binary_blob_labelling(IVC *src, IVC *dst, int *nlabels)
 
 	// Contagem do número de blobs
 	// Passo 1: Eliminar, da tabela, etiquetas repetidas
-	for (a = 1; a<label - 1; a++)
+	for (a = 1; a < label - 1; a++)
 	{
-		for (b = a + 1; b<label; b++)
+		for (b = a + 1; b < label; b++)
 		{
 			if (labeltable[a] == labeltable[b]) labeltable[b] = 0;
 		}
 	}
 	// Passo 2: Conta etiquetas e organiza a tabela de etiquetas, para que não hajam valores vazios (zero) entre etiquetas
 	*nlabels = 0;
-	for (a = 1; a<label; a++)
+	for (a = 1; a < label; a++)
 	{
 		if (labeltable[a] != 0)
 		{
@@ -195,10 +195,10 @@ OVC* vc_binary_blob_labelling(IVC *src, IVC *dst, int *nlabels)
 	if (*nlabels == 0) return NULL;
 
 	// Cria lista de blobs (objectos) e preenche a etiqueta
-	blobs = (OVC *)calloc((*nlabels), sizeof(OVC));
+	blobs = (OVC*)calloc((*nlabels), sizeof(OVC));
 	if (blobs != NULL)
 	{
-		for (a = 0; a<(*nlabels); a++) blobs[a].label = labeltable[a];
+		for (a = 0; a < (*nlabels); a++) blobs[a].label = labeltable[a];
 	}
 	else return NULL;
 
@@ -206,9 +206,9 @@ OVC* vc_binary_blob_labelling(IVC *src, IVC *dst, int *nlabels)
 }
 
 
-int vc_binary_blob_info(IVC *src, OVC *blobs, int nblobs)
+int vc_binary_blob_info(IVC* src, OVC* blobs, int nblobs)
 {
-	unsigned char *data = (unsigned char *)src->data;
+	unsigned char* data = (unsigned char*)src->data;
 	int width = src->width;
 	int height = src->height;
 	int bytesperline = src->bytesperline;
@@ -223,7 +223,7 @@ int vc_binary_blob_info(IVC *src, OVC *blobs, int nblobs)
 	if (channels != 1) return 0;
 
 	// Conta área de cada blob
-	for (i = 0; i<nblobs; i++)
+	for (i = 0; i < nblobs; i++)
 	{
 		xmin = width - 1;
 		ymin = height - 1;
@@ -235,9 +235,9 @@ int vc_binary_blob_info(IVC *src, OVC *blobs, int nblobs)
 
 		blobs[i].area = 0;
 
-		for (y = 1; y<height - 1; y++)
+		for (y = 1; y < height - 1; y++)
 		{
-			for (x = 1; x<width - 1; x++)
+			for (x = 1; x < width - 1; x++)
 			{
 				pos = y * bytesperline + x * channels;
 
