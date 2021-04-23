@@ -1,12 +1,4 @@
 ﻿  main.c
 C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\main.c(559,42): warning C4133: 'function': incompatible types - from 'IVC *' to 'int *'
 C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\main.c(568,8): warning C4013: 'system' undefined; assuming extern returning int
-  vc.c
-C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(660,69): warning C4244: '=': conversion from 'double' to 'unsigned char', possible loss of data
-C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(827,41): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(828,45): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(829,45): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1115,17): warning C4013: 'pow' undefined; assuming extern returning int
-C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1121,23): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  Generating Code...
   VC-P0001.vcxproj -> C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\Debug\VC-P0001.exe

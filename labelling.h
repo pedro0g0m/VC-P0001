@@ -22,4 +22,6 @@ typedef struct {
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 OVC* vc_binary_blob_labelling(IVC *src, IVC *dst, int *nlabels);
+
+
 int vc_binary_blob_info(IVC *src, OVC *blobs, int nblobs);

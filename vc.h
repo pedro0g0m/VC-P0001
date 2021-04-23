@@ -92,5 +92,14 @@ int vc_binary_close(IVC* src, IVC* dst, int kernel);
 //Funcao abrir (1-> erode 2-> dilata)
 int vc_binary_open(IVC* src, IVC* dst, int kernel);
 
+//FUNÇÃO CÁLCULO DO HISTOGRAMA
+int vc_gray_histogram(IVC* src, IVC* srcD);
+
+//FUNÇÃO CÁLCULO DO HISTOGRAMA
+int vc_gray_histogram_equalization(IVC* src, IVC* srcD);
+
 //Deteção de contornos Prewitt
 int vc_gray_edge_prewitt(IVC* src, IVC* dst, float th);
+
+//Deteção de contornos Sobel
+int vc_gray_edge_sobel(IVC* src, IVC* dst, float th);

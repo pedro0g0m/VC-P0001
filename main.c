@@ -559,7 +559,7 @@ int main(void)
 	vc_binary_blob_labelling(dst, image, src);
 
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+	//
 	vc_write_image("teste.ppm", image);
 	vc_image_free(dst);
 	vc_image_free(image);
@@ -572,82 +572,167 @@ int main(void)
 
 #pragma endregion
 
-
+//Incompleto
 #pragma region Aula14-04
+	
+	/*IVC* image, * src, * dst, *labelling;
+	OVC* blobs;
+	int nlabels = 0;*/
 
-	//IVC* image, * src, * dst, *labelling;
-	//OVC* blobs;
-	//int nlabels = 0;
+#pragma region ajustar
 
-//#pragma region ajustar
-//
-//	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//	//              Thresh global mean + negative
-//
-//	image = vc_read_image("Images/Imagens de Teste para Segmentação/coins.pgm");
-//
-//	if (image == NULL)
-//	{
-//		printf("ERROR -> vc_read_image(): \n\tFile not found\n");
-//		getchar();
-//		return 0;
-//	}
-//
-//	vc_gray_to_binary_global_mean(image);
-//	vc_gray_negative(image);
-//	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//	//				Close(k = 3) + Open(k = 3)
-//
-//	//dimensoes img src == dst
-//	int width = image->width;
-//	int height = image->height;
-//
-//	src = vc_image_new(width, height, 1, 255);
-//
-//	vc_binary_close(image, src, 3);
-//
-//	//dimensoes img src == dst
-//	int width1 = src->width;
-//	int height1 = src->height;
-//
-//	dst = vc_image_new(width1, height1, 1, 255);
-//
-//	vc_binary_open(src, dst, 3);
-//
-//	vc_image_free(image);
-//	vc_image_free(src);
-//
-//	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//	//				Etiquetagem (Labelling) 
-//
-//	//dimensoes img src == dst
-//	int width2 = dst->width;
-//	int height2 = dst->height;
-//
-//	image = vc_image_new(width2, height2, 1, 255);
-//	src = vc_image_new(width2, height2, 1, 255);
-//
-//	vc_binary_blob_labelling(dst, image, src);
-//
-//	labelling = vc_image_new(dst->width, dst->height, 1, 255);
-//
-//	blobs = vc_binary_blob_labelling(dst, labelling, &nlabels);
-//
-//	vc_binary_blob_info(labelling, blobs, nlabels);
-//
-//	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//
-//	vc_write_image("teste.ppm", image);
-//	vc_image_free(dst);
-//	vc_image_free(image);
-//
-//
-//	system("FilterGear teste.ppm");
-//
-//
-//#pragma endregion
+	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	////              Thresh global mean + negative
+
+	//image = vc_read_image("Images/Imagens de Teste para Segmentação/coins.pgm");
+
+	//if (image == NULL)
+	//{
+	//	printf("ERROR -> vc_read_image(): \n\tFile not found\n");
+	//	getchar();
+	//	return 0;
+	//}
+
+	//vc_gray_to_binary_global_mean(image);
+	//vc_gray_negative(image);
+	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	////				Close(k = 3) + Open(k = 3)
+
+	////dimensoes img src == dst
+	//int width = image->width;
+	//int height = image->height;
+
+	//src = vc_image_new(width, height, 1, 255);
+
+	//vc_binary_close(image, src, 3);
+
+	////dimensoes img src == dst
+	//int width1 = src->width;
+	//int height1 = src->height;
+
+	//dst = vc_image_new(width1, height1, 1, 255);
+
+	//vc_binary_open(src, dst, 3);
+
+	//vc_image_free(image);
+	//vc_image_free(src);
+
+	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	////				Etiquetagem (Labelling) 
+
+	////dimensoes img src == dst
+	//int width2 = dst->width;
+	//int height2 = dst->height;
+
+	//image = vc_image_new(width2, height2, 1, 255);
+	//src = vc_image_new(width2, height2, 1, 255);
+
+	//vc_binary_blob_labelling(dst, image, src);
+
+	//labelling = vc_image_new(dst->width, dst->height, 1, 255);
+
+	//blobs = vc_binary_blob_labelling(dst, labelling, &nlabels);
+
+	//vc_binary_blob_info(labelling, blobs, nlabels);
+
+	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	//vc_write_image("teste.ppm", image);
+	//vc_image_free(dst);
+	//vc_image_free(image);
+
+
+	//system("FilterGear teste.ppm");
+
 
 #pragma endregion
+
+#pragma endregion
+
+//histograma + professor!!!
+#pragma region Aula16-04 
+	
+	//Variaveis
+	//IVC* image, *src, *dst;
+
+	//Rever dimensoes do histograma com o professor!!!
+#pragma region vc_gray_histogram
+
+	//image = vc_read_image("Images/Imagens de Teste para Histograma/tire.pgm");
+
+	//if (image == NULL)
+	//{
+	//	printf("ERROR -> vc_read_image(): \n\tFile not found\n");
+	//	getchar();
+	//	return 0;
+	//}
+
+	////dimensoes img src == dst
+	//int width = image->width;
+	//int height = image->height;
+
+	//dst = vc_image_new(width, height, 1, 255);
+	//src = vc_image_new(width, height, 1, 255);
+
+	//vc_gray_histogram(image, dst);
+	//vc_gray_histogram_equalization(image, src);
+
+	//vc_write_image("histogram.ppm", dst);
+	//vc_write_image("histogramequalization.ppm", src);
+	//vc_image_free(dst);
+
+
+	//dst = vc_image_new(width, height, 1, 255);
+
+	//vc_gray_histogram(src, dst);
+
+	//vc_write_image("histogram1.ppm", dst);
+
+	//vc_image_free(image);
+	//vc_image_free(src);
+	//vc_image_free(dst);
+
+
+#pragma endregion
+
+#pragma endregion
+
+// prewitt + professor!!!
+#pragma region Aula21-04
+
+	//Variaveis
+	/*IVC* image, *dst;
+	float th = 1000;*/
+
+	//Perguntar ao prof pk tudo branco!!!
+#pragma region vc_gray_edge_prewitt
+	//image = vc_read_image("Images/Imagens de Teste para Histograma/tire.pgm");
+
+	//if (image == NULL)
+	//{
+	//	printf("ERROR -> vc_read_image(): \n\tFile not found\n");
+	//	getchar();
+	//	return 0;
+	//}
+
+	////dimensoes img src == dst
+	//int width = image->width;
+	//int height = image->height;
+
+	//dst = vc_image_new(width, height, 1, 255);
+
+	//vc_gray_edge_prewitt(image, dst, th );
+
+	//vc_write_image("prewitt.ppm", dst);
+
+	//vc_image_free(image);
+	//vc_image_free(dst);
+
+#pragma endregion
+
+#pragma endregion
+
+
 
 
 	printf("Press any key to exit...\n");

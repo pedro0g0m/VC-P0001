@@ -1303,6 +1303,115 @@ int vc_binary_close(IVC* src, IVC* dst, int kernel)
 	return 1;
 }
 
+//FUNÇÃO CÁLCULO DO HISTOGRAMA
+int vc_gray_histogram(IVC* src, IVC* srcD)
+{
+	unsigned char* data = (unsigned char*)src->data;
+	int width = src->width, height = src->height;
+	int channels = src->channels;
+	int levels = src->levels;
+	int bytesperline = src->bytesperline;
+	long int pos;
+	long int size = src->width * src->height;
+	int contaPixeis[256] = { 0 };
+	float pdf[256];
+	float cdf[256] = { 0 };
+
+	if ((width <= 0) || (height <= 0) || (data == NULL) || (channels != 1))
+		return 0;
+	for (size_t y = 0; y < height; y++)
+	{
+		for (size_t x = 0; x < width; x++)
+		{
+			pos = y * bytesperline + x * channels;
+			contaPixeis[(int)src->data[pos]]++;
+		}
+	}
+	float pdfmax = 0;
+	for (size_t i = 0; i < 256; i++)
+	{
+		pdf[i] = (float)((float)contaPixeis[i] / (float)(size));
+		if (pdf[i] > pdfmax) pdfmax = pdf[i];
+	}
+	double temp;
+	for (size_t x = 0; x < srcD->width; x++)
+	{
+		temp = (float)((float)pdf[x] * (float)255 / pdfmax);
+		for (int y = srcD->height - 1; y >= 0; y--)
+		{
+			pos = y * srcD->bytesperline + x * srcD->channels;
+			if ((double)y > 255 - temp)
+				srcD->data[pos] = (unsigned char)0;
+			else
+				srcD->data[pos] = (unsigned char)255;
+		}
+	}
+	return 1;
+}
+
+//FUNÇÃO CÁLCULO DO HISTOGRAMA
+int vc_gray_histogram_equalization(IVC* src, IVC* srcD)
+{
+	unsigned char* data = (unsigned char*)src->data;
+	int width = src->width, height = src->height;
+	int channels = src->channels;
+	int levels = src->levels;
+	int bytesperline = src->bytesperline;
+	long int pos;
+	long int size = src->width * src->height;
+	int contaPixeis[256] = { 0 };
+	float pdf[256];
+	float cdf[256];
+	int i;
+
+	if ((width <= 0) || (height <= 0) || (data == NULL) || (channels != 1))
+		return 0;
+	for (size_t y = 0; y < height; y++)
+	{
+		for (size_t x = 0; x < width; x++)
+		{
+			pos = y * bytesperline + x * channels;
+			contaPixeis[(int)src->data[pos]]++;
+		}
+	}
+	float pdfmax = 0;
+	for (size_t i = 0; i < 256; i++)
+	{
+		pdf[i] = (float)((float)contaPixeis[i] / (float)(size));
+		if (pdf[i] > pdfmax) pdfmax = pdf[i];
+	}
+	double temp;
+	for (size_t x = 0; x < srcD->width; x++)
+	{
+		temp = (float)((float)pdf[x] * (float)255 / pdfmax);
+		for (int y = srcD->height - 1; y >= 0; y--)
+		{
+			pos = y * srcD->bytesperline + x * srcD->channels;
+			if ((double)y > 255 - temp)
+				srcD->data[pos] = (unsigned char)0;
+			else
+				srcD->data[pos] = (unsigned char)255;
+		}
+	}
+	//CALCULA O GRÁFICO CDF
+
+	for (i = 1, cdf[0] = pdf[0]; i < 256; i++)
+	{
+		cdf[i] = cdf[i - 1] + pdf[i];
+	}
+
+
+	for (int y = 0; y < height; y++)
+	{
+		for (int x = 0; x < width; x++)
+		{
+			pos = y * bytesperline + x * channels;
+			srcD->data[pos] = cdf[data[pos]] * levels;
+		}
+	}
+	return 1;
+}
+
 //Deteção de contornos Prewitt
 int vc_gray_edge_prewitt(IVC* src, IVC* dst, float th)
 {
@@ -1363,4 +1472,53 @@ int vc_gray_edge_prewitt(IVC* src, IVC* dst, float th)
 		}
 	}
 
+	return 1;
+}
+
+//Deteção de contornos Sobel
+int vc_gray_edge_sobel(IVC* src, IVC* dst, float th)
+{
+	unsigned char* data = (unsigned char*)src->data;
+	int width = src->width;
+	int height = src->height;
+	int byteperline = src->width * src->channels;
+	int channels = src->channels;
+	int x, y;
+	long int pos;
+	long int posA, posB, posC, posD, posE, posF, posG, posH;
+	long int mag, mx, my;
+
+	if ((width <= 0) || (height <= 0) || (src->data == NULL))
+		return 0;
+
+	if (channels != 1)
+		return 0;
+
+	for (y = 0; y < height; y++)
+	{
+		for (x = 0; x < width; x++)
+		{
+			pos = y * byteperline + x * channels;
+
+			posA = (y - 1) * byteperline + (x - 1) * channels;
+			posB = (y - 1) * byteperline + (x)*channels;
+			posC = (y - 1) * byteperline + (x + 1) * channels;
+			posD = (y)*byteperline + (x - 1) * channels;
+			posE = (y)*byteperline + (x + 1) * channels;
+			posF = (y + 1) * byteperline + (x - 1) * channels;
+			posG = (y + 1) * byteperline + (x)*channels;
+			posH = (y + 1) * byteperline + (x + 1) * channels;
+
+			mx = ((-1 * data[posA]) + (1 * data[posC]) + (-2 * data[posD]) + (2 * data[posE]) + (-1 * data[posF]) + (1 * data[posH])) / 3;
+			my = ((-1 * data[posA]) + (1 * data[posF]) + (-2 * data[posB]) + (2 * data[posG]) + (-1 * data[posC]) + (1 * data[posH])) / 3;
+
+			mag = sqrt((mx * mx) + (my * my));
+
+			if (mag > th)
+				dst->data[pos] = 255;
+			else
+				dst->data[pos] = 0;
+		}
+	}
+	return 1;
 }
