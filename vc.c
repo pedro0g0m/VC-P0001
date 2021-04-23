@@ -14,6 +14,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <malloc.h>
+#include <math.h>
 #include "vc.h"
 
 
@@ -1304,48 +1305,72 @@ int vc_binary_close(IVC* src, IVC* dst, int kernel)
 }
 
 //FUNÇÃO CÁLCULO DO HISTOGRAMA
-int vc_gray_histogram(IVC* src, IVC* srcD)
+int vc_gray_histogram(IVC* src, IVC* dst)
 {
 	unsigned char* data = (unsigned char*)src->data;
 	int width = src->width, height = src->height;
 	int channels = src->channels;
 	int levels = src->levels;
 	int bytesperline = src->bytesperline;
-	long int pos;
-	long int size = src->width * src->height;
+	long int pos, size = src->width * src->height;
+	int x, y, i;
 	int contaPixeis[256] = { 0 };
 	float pdf[256];
 	float cdf[256] = { 0 };
 
-	if ((width <= 0) || (height <= 0) || (data == NULL) || (channels != 1))
-		return 0;
-	for (size_t y = 0; y < height; y++)
+	//verificar erros
+	if (src == NULL)
 	{
-		for (size_t x = 0; x < width; x++)
+		printf("ERROR -> vc_gray_histogram():\n\tImage is empty!\n");
+		getchar();
+		return 0;
+	}
+
+	if (src->width <= 0 || src->height <= 0 || src->data == NULL)
+	{
+		printf("ERROR -> vc_gray_histogram():\n\tDimensoes or data are missing!\n");
+		getchar();
+		return 0;
+	}
+
+	if (src->channels != 1 || dst->channels != 1)
+	{
+		printf("ERROR -> vc_gray_histogram():\n\tNot Gray Image!\n");
+		getchar();
+		return 0;
+	}
+
+	//tons de cinzento da imagem
+	for (y = 0; y < height; y++)
+	{
+		for (x = 0; x < width; x++)
 		{
 			pos = y * bytesperline + x * channels;
 			contaPixeis[(int)src->data[pos]]++;
 		}
 	}
+
 	float pdfmax = 0;
-	for (size_t i = 0; i < 256; i++)
+	for (i = 0; i < 256; i++)
 	{
 		pdf[i] = (float)((float)contaPixeis[i] / (float)(size));
 		if (pdf[i] > pdfmax) pdfmax = pdf[i];
 	}
+
 	double temp;
-	for (size_t x = 0; x < srcD->width; x++)
+	for (x = 0; x < dst->width; x++)
 	{
 		temp = (float)((float)pdf[x] * (float)255 / pdfmax);
-		for (int y = srcD->height - 1; y >= 0; y--)
+		for (int y = dst->height - 1; y >= 0; y--)
 		{
-			pos = y * srcD->bytesperline + x * srcD->channels;
+			pos = y * dst->bytesperline + x * dst->channels;
 			if ((double)y > 255 - temp)
-				srcD->data[pos] = (unsigned char)0;
+				dst->data[pos] = (unsigned char)0;
 			else
-				srcD->data[pos] = (unsigned char)255;
+				dst->data[pos] = (unsigned char)255;
 		}
 	}
+
 	return 1;
 }
 
@@ -1422,53 +1447,85 @@ int vc_gray_edge_prewitt(IVC* src, IVC* dst, float th)
 	int bytesperline = src->bytesperline;
 	int channels = src->channels;
 	int x, y;
-	float magn;
-	long int posx, posy, posa, posb, posc, posd, pose, posf, posg, posh, fx, fy;
+	long int posX, posA, posB, posC, posD, posE, posF, posG, posH;
+	int i, size;
+	int histmax, histthreshold;
+	int sumx, sumy;
+	int hist[256] = { 0 };
 
-	//verificar erros
-	if (src == NULL)
+	// Verificação de erros
+	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL)) return 0;
+	if ((src->width != dst->width) || (src->height != dst->height) || (src->channels != dst->channels)) return 0;
+	if (channels != 1) return 0;
+
+	size = width * height;
+
+	for (y = 1; y < height - 1; y++)
 	{
-		printf("ERROR -> vc_gray_edge_prewitt():\n\tImage is empty!\n");
-		getchar();
-		return 0;
+		for (x = 1; x < width - 1; x++)
+		{
+			posA = (y - 1) * bytesperline + (x - 1);
+			posB = (y - 1) * bytesperline + x;
+			posC = (y - 1) * bytesperline + (x + 1);
+			posD = y * bytesperline + (x - 1);
+			posX = y * bytesperline + x;
+			posE = y * bytesperline + (x + 1);
+			posF = (y + 1) * bytesperline + (x - 1);
+			posG = (y + 1) * bytesperline + x;
+			posH = (y + 1) * bytesperline + (x + 1);
+
+			sumx = datasrc[posA] * -1;
+			sumx += datasrc[posD] * -1;
+			sumx += datasrc[posF] * -1;
+
+			sumx += datasrc[posC] * +1;
+			sumx += datasrc[posE] * +1;
+			sumx += datasrc[posH] * +1;
+			sumx = sumx / 3; // 3 = 1 + 1 + 1
+
+			sumy = datasrc[posA] * -1;
+			sumy += datasrc[posB] * -1;
+			sumy += datasrc[posC] * -1;
+
+			sumy += datasrc[posF] * +1;
+			sumy += datasrc[posG] * +1;
+			sumy += datasrc[posH] * +1;
+			sumy = sumy / 3; // 3 = 1 + 1 + 1
+
+			datadst[posX] = (unsigned char)sqrt((double)(sumx * sumx + sumy * sumy));
+		}
 	}
 
-	if ((src->width != dst->width) || (src->height != dst->height) || (src->channels != dst->channels))
-	{
-		printf("ERROR -> vc_gray_edge_prewitt():\n\tDimensoes or data are missing!\n");
-		getchar();
-		return 0;
-	}
-
-	if (src->channels != 1 || dst->channels != 1)
-	{
-		printf("ERROR -> vc_gray_edge_prewitt():\n\tNot Gray Image!\n");
-		getchar();
-		return 0;
-	}
-
+	// Compute a grey level histogram
 	for (y = 0; y < height; y++)
 	{
 		for (x = 0; x < width; x++)
 		{
-			posx = y * bytesperline + x;
-			posa = (y - 1) * bytesperline + (x - 1);
-			posb = (y - 1) * bytesperline + x;
-			posc = (y - 1) * bytesperline + (x + 1);
-			posd = y * bytesperline + (x - 1);
-			pose = y * bytesperline + (x + 1);
-			posf = (y + 1) * bytesperline + (x - 1);
-			posg = (y + 1) * bytesperline + x;
-			posh = (y + 1) * bytesperline + (x + 1);
+			hist[datadst[y * bytesperline + x * channels]]++;
+		}
+	}
 
-			fx = (datasrc[posa] * (-1) + datasrc[posc] + datasrc[posd] * (-1) + datasrc[pose] + datasrc[posf] * (-1) + datasrc[posh]) / 3;
-			fy = (datasrc[posa] * (-1) + datasrc[posf] + datasrc[posb] * (-1) + datasrc[posg] + datasrc[posc] * (-1) + datasrc[posh]) / 3;
+	// Threshold at the middle of the occupied levels
+	histmax = 0;
+	for (i = 0; i <= 255; i++)
+	{
+		histmax += hist[i];
 
-			magn = sqrt(fx * fx + fy * fy);
+		// th = Prewitt Threshold
+		if (histmax >= (((float)size) * th)) break;
+	}
+	histthreshold = i;
 
-			if (magn > th)datadst[posx] = 255;
-			else datadst[posx] = 0;
 
+	// Apply the threshold
+	for (y = 0; y < height; y++)
+	{
+		for (x = 0; x < width; x++)
+		{
+			posX = y * bytesperline + x * channels;
+
+			if (datadst[posX] >= histthreshold) datadst[posX] = 255;
+			else datadst[posX] = 0;
 		}
 	}
 
@@ -1520,5 +1577,6 @@ int vc_gray_edge_sobel(IVC* src, IVC* dst, float th)
 				dst->data[pos] = 0;
 		}
 	}
+
 	return 1;
 }

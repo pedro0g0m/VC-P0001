@@ -1,4 +1,4 @@
 ﻿  main.c
-C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\main.c(559,42): warning C4133: 'function': incompatible types - from 'IVC *' to 'int *'
-C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\main.c(568,8): warning C4013: 'system' undefined; assuming extern returning int
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\main.c(706,39): warning C4305: 'function': truncation from 'double' to 'float'
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\main.c(709,8): warning C4013: 'system' undefined; assuming extern returning int
   VC-P0001.vcxproj -> C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\Debug\VC-P0001.exe

@@ -506,83 +506,12 @@ int main(void)
 #pragma region Aula09-04
 	
 	//Variaveis
-	IVC* image, *src, *dst;
+	//IVC* image, *src, *dst;
 
 #pragma region vc_binary_blob_labelling
 
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//              Thresh global mean + negative
-
-	image = vc_read_image("Images/Imagens de Teste para Segmentação/coins.pgm");
-
-	if (image == NULL)
-	{
-		printf("ERROR -> vc_read_image(): \n\tFile not found\n");
-		getchar();
-		return 0;
-	}
-
-	vc_gray_to_binary_global_mean(image);
-	vc_gray_negative(image);
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//				Close(k = 3) + Open(k = 3)
-	
-	//dimensoes img src == dst
-	int width = image->width;
-	int height = image->height;
-
-	src = vc_image_new(width, height, 1, 255);
-
-	vc_binary_close(image, src, 3);
-
-	//dimensoes img src == dst
-	int width1 = src->width;
-	int height1 = src->height;
-
-	dst = vc_image_new(width1, height1, 1, 255);
-
-	vc_binary_open(src, dst, 3);
-
-	vc_image_free(image);
-	vc_image_free(src);
-
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//				Etiquetagem (Labelling) 
-	
-	//dimensoes img src == dst
-	int width2 = dst->width;
-	int height2 = dst->height;
-
-	image = vc_image_new(width2, height2, 1, 255);
-	src = vc_image_new(width2, height2, 1, 255);
-
-	vc_binary_blob_labelling(dst, image, src);
-
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//
-	vc_write_image("teste.ppm", image);
-	vc_image_free(dst);
-	vc_image_free(image);
-	
-
-	system("FilterGear teste.ppm");
-
-
-#pragma endregion
-
-#pragma endregion
-
-//Incompleto
-#pragma region Aula14-04
-	
-	/*IVC* image, * src, * dst, *labelling;
-	OVC* blobs;
-	int nlabels = 0;*/
-
-#pragma region ajustar
-
-	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	////              Thresh global mean + negative
 
 	//image = vc_read_image("Images/Imagens de Teste para Segmentação/coins.pgm");
 
@@ -597,7 +526,7 @@ int main(void)
 	//vc_gray_negative(image);
 	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	////				Close(k = 3) + Open(k = 3)
-
+	//
 	////dimensoes img src == dst
 	//int width = image->width;
 	//int height = image->height;
@@ -619,7 +548,7 @@ int main(void)
 
 	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	////				Etiquetagem (Labelling) 
-
+	//
 	////dimensoes img src == dst
 	//int width2 = dst->width;
 	//int height2 = dst->height;
@@ -629,18 +558,12 @@ int main(void)
 
 	//vc_binary_blob_labelling(dst, image, src);
 
-	//labelling = vc_image_new(dst->width, dst->height, 1, 255);
-
-	//blobs = vc_binary_blob_labelling(dst, labelling, &nlabels);
-
-	//vc_binary_blob_info(labelling, blobs, nlabels);
-
 	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+	////
 	//vc_write_image("teste.ppm", image);
 	//vc_image_free(dst);
 	//vc_image_free(image);
-
+	//
 
 	//system("FilterGear teste.ppm");
 
@@ -649,11 +572,72 @@ int main(void)
 
 #pragma endregion
 
-//histograma + professor!!!
+//blob_info + professor!!
+#pragma region Aula14-04
+	
+
+#pragma region vc_binary_blob_info
+
+	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	////              Thresh global mean + negative
+
+	//IVC* image = vc_read_image("Images/Imagens de Teste para Segmentação/coins.pgm");
+
+	//if (image == NULL)
+	//{
+	//	printf("ERROR -> vc_read_image(): \n\tFile not found\n");
+	//	getchar();
+	//	return 0;
+	//}
+
+	//vc_gray_to_binary_global_mean(image);
+	//vc_gray_negative(image);
+	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	////				Close(k = 3) + Open(k = 3)
+
+
+	//IVC* src = vc_image_new(image->width, image->height, 1, 255);
+
+	//vc_binary_close(image, src, 3);
+
+
+	//IVC* dst = vc_image_new(src->width, src->height, 1, 255);
+
+	//vc_binary_open(src, dst, 3);
+
+	//vc_image_free(image);
+	//vc_image_free(src);
+
+	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	////				Etiquetagem (Labelling) 
+
+	//int nlabels = 0;
+	//IVC* labelling = vc_image_new(dst->width, dst->height, 1, 255);
+	//OVC* blobs = vc_binary_blob_labelling(dst, labelling, &nlabels);
+
+	//printf("labels: %i \n", nlabels);
+
+	//vc_binary_blob_info(labelling, blobs, nlabels);
+
+	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	//vc_write_image("testelabelling.ppm", labelling);
+	//vc_image_free(dst);
+	//vc_image_free(labelling);
+
+
+	//system("FilterGear testelabelling.ppm");
+
+
+#pragma endregion
+
+#pragma endregion
+
+//histograma 
 #pragma region Aula16-04 
 	
 	//Variaveis
-	//IVC* image, *src, *dst;
+	/*IVC* image, *src, *dst;*/
 
 	//Rever dimensoes do histograma com o professor!!!
 #pragma region vc_gray_histogram
@@ -674,19 +658,21 @@ int main(void)
 	//dst = vc_image_new(width, height, 1, 255);
 	//src = vc_image_new(width, height, 1, 255);
 
+	////Histograma da foto original
 	//vc_gray_histogram(image, dst);
+	//vc_write_image("histogram.pgm", dst);
+
+	////equalization
 	//vc_gray_histogram_equalization(image, src);
+	//vc_write_image("histogramequalization.pgm", src);
 
-	//vc_write_image("histogram.ppm", dst);
-	//vc_write_image("histogramequalization.ppm", src);
 	//vc_image_free(dst);
-
 
 	//dst = vc_image_new(width, height, 1, 255);
 
+	////Histograma da foto equalizada
 	//vc_gray_histogram(src, dst);
-
-	//vc_write_image("histogram1.ppm", dst);
+	//vc_write_image("histogram1.pgm", dst);
 
 	//vc_image_free(image);
 	//vc_image_free(src);
@@ -701,11 +687,33 @@ int main(void)
 #pragma region Aula21-04
 
 	//Variaveis
-	/*IVC* image, *dst;
-	float th = 1000;*/
+	IVC* image, *dst;
 
 	//Perguntar ao prof pk tudo branco!!!
 #pragma region vc_gray_edge_prewitt
+
+	image = vc_read_image("Images/OldClassic/cameraman.pgm");
+
+	if (image == NULL)
+	{
+		printf("ERROR -> vc_read_image(): \n\tFile not found\n");
+		getchar();
+		return 0;
+	}
+
+	dst = vc_image_new(image->width, image->height, 1, 255);
+
+	vc_gray_edge_prewitt(image, dst, 0.80);
+	vc_write_image("prewitt.pgm", dst);
+
+	system("FilterGear prewitt.pgm");
+
+	vc_image_free(image);
+	vc_image_free(dst);
+
+#pragma endregion
+
+#pragma region vc_gray_edge_sobel
 	//image = vc_read_image("Images/Imagens de Teste para Histograma/tire.pgm");
 
 	//if (image == NULL)
@@ -721,9 +729,10 @@ int main(void)
 
 	//dst = vc_image_new(width, height, 1, 255);
 
-	//vc_gray_edge_prewitt(image, dst, th );
+	//vc_gray_edge_sobel(image, dst, 0.85);
 
-	//vc_write_image("prewitt.ppm", dst);
+	//vc_write_image("sobel.pgm", dst);
+	//system("FilterGear sobel.pgm");
 
 	//vc_image_free(image);
 	//vc_image_free(dst);
@@ -731,8 +740,6 @@ int main(void)
 #pragma endregion
 
 #pragma endregion
-
-
 
 
 	printf("Press any key to exit...\n");
