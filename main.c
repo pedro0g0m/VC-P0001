@@ -572,7 +572,7 @@ int main(void)
 
 #pragma endregion
 
-//blob_info + professor!!
+//blob_info 
 #pragma region Aula14-04
 	
 
@@ -639,7 +639,6 @@ int main(void)
 	//Variaveis
 	/*IVC* image, *src, *dst;*/
 
-	//Rever dimensoes do histograma com o professor!!!
 #pragma region vc_gray_histogram
 
 	//image = vc_read_image("Images/Imagens de Teste para Histograma/tire.pgm");
@@ -683,7 +682,7 @@ int main(void)
 
 #pragma endregion
 
-// prewitt + professor!!!
+// prewitt 
 #pragma region Aula21-04
 
 	//Variaveis
@@ -692,7 +691,7 @@ int main(void)
 	//Perguntar ao prof pk tudo branco!!!
 #pragma region vc_gray_edge_prewitt
 
-	image = vc_read_image("Images/OldClassic/cameraman.pgm");
+	/*image = vc_read_image("Images/OldClassic/cameraman.pgm");
 
 	if (image == NULL)
 	{
@@ -709,35 +708,59 @@ int main(void)
 	system("FilterGear prewitt.pgm");
 
 	vc_image_free(image);
-	vc_image_free(dst);
+	vc_image_free(dst);*/
 
 #pragma endregion
 
 #pragma region vc_gray_edge_sobel
-	//image = vc_read_image("Images/Imagens de Teste para Histograma/tire.pgm");
+	/*image = vc_read_image("Images/OldClassic/cameraman.pgm");
 
-	//if (image == NULL)
-	//{
-	//	printf("ERROR -> vc_read_image(): \n\tFile not found\n");
-	//	getchar();
-	//	return 0;
-	//}
+	if (image == NULL)
+	{
+		printf("ERROR -> vc_read_image(): \n\tFile not found\n");
+		getchar();
+		return 0;
+	}
 
-	////dimensoes img src == dst
-	//int width = image->width;
-	//int height = image->height;
+	dst = vc_image_new(image->width, image->height, 1, 255);
 
-	//dst = vc_image_new(width, height, 1, 255);
+	vc_gray_edge_sobel(image, dst, 0.85);
 
-	//vc_gray_edge_sobel(image, dst, 0.85);
+	vc_write_image("sobel.pgm", dst);
+	system("FilterGear sobel.pgm");
 
-	//vc_write_image("sobel.pgm", dst);
-	//system("FilterGear sobel.pgm");
-
-	//vc_image_free(image);
-	//vc_image_free(dst);
+	vc_image_free(image);
+	vc_image_free(dst);*/
 
 #pragma endregion
+
+#pragma region RGB -> Gray + prewitt
+	
+	image = vc_read_image("Images/Classic/lenna.ppm");
+
+	if (image == NULL)
+	{
+		printf("error -> vc_read_image():\n\tFile not found!\n");
+		getchar();
+		return 0;
+	}
+
+	//RGB -> GRAY
+	IVC* gray = vc_image_new(image->width, image->height, 1, 255);
+	vc_rgb_to_gray(image, gray);
+
+	//PREWITT
+	IVC* edge = vc_image_new(gray->width, gray->height, 1, 255);
+	vc_gray_edge_prewitt(gray, edge, 0.90);
+
+	vc_write_image("edge.pgm", edge);
+	system("FilterGear edge.pgm");
+
+	vc_image_free(image);
+	vc_image_free(gray);
+	vc_image_free(edge);
+#pragma endregion 
+
 
 #pragma endregion
 
