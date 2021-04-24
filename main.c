@@ -821,6 +821,8 @@ system("FilterGear threshold.ppm");*/
 
 	vc_gray_to_binary(grayimage, 50);
 
+
+
 	//vc_write_image("P2imageGray.ppm", grayimage);
 	//system("FilterGear P2imageGray.ppm");
 
