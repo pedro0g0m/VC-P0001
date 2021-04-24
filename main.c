@@ -5,6 +5,7 @@
 
 int main(void)
 {
+
 	//Implementar algumas funcões para comecar a por a mao na massa
 	#pragma region Aula26-02
 
@@ -575,82 +576,81 @@ int main(void)
 	//blob_info 
 	#pragma region Aula14-04
 	
-
 	#pragma region vc_binary_blob_info
 
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//              Thresh global mean + negative
+	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	////              Thresh global mean + negative
 
-	IVC* image = vc_read_image("Images/Imagens de Teste para Segmentação/coins.pgm");
+	//IVC* image = vc_read_image("Images/Imagens de Teste para Segmentação/coins.pgm");
 
-	if (image == NULL)
-	{
-		printf("ERROR -> vc_read_image(): \n\tFile not found\n");
-		getchar();
-		return 0;
-	}
+	//if (image == NULL)
+	//{
+	//	printf("ERROR -> vc_read_image(): \n\tFile not found\n");
+	//	getchar();
+	//	return 0;
+	//}
 
-	vc_gray_to_binary_global_mean(image);
-	vc_gray_negative(image);
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//				Close(k = 3) + Open(k = 3)
-
-
-	IVC* src = vc_image_new(image->width, image->height, 1, 255);
-
-	vc_binary_close(image, src, 3);
+	//vc_gray_to_binary_global_mean(image);
+	//vc_gray_negative(image);
+	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	////				Close(k = 3) + Open(k = 3)
 
 
-	IVC* dst = vc_image_new(src->width, src->height, 1, 255);
+	//IVC* src = vc_image_new(image->width, image->height, 1, 255);
 
-	vc_binary_open(src, dst, 3);
-
-	vc_image_free(image);
-	vc_image_free(src);
-
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//				Etiquetagem (Labelling) 
-
-	int nlabels = 0;
-	IVC* labelling = vc_image_new(dst->width, dst->height, 1, 255);
-	OVC* blobs = vc_binary_blob_labelling(dst, labelling, &nlabels);
-
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//				Etiquetagem (BLOBS) 
-
-	int i, obj = 0;
-
-	vc_binary_blob_info(labelling, blobs, nlabels);
-
-	printf("\n \n Dados das Moedas \n \n");
-	printf("Numero de moedas: %i \n", nlabels);
-
-	for (i = 0; i < nlabels; i++) {
-		
-		obj = obj + 1;
-
-		printf("Perimetro: %d \n", blobs[i].perimeter);
-		printf("Area: %d \n", blobs[i].area);
-		printf("Centro de massa: \n X = %d \t Y = %d \n \n", blobs[i].xc, blobs[i].yc);
-
-		vc_perimeter_blobs(labelling, blobs[i].width, blobs[i].height, blobs[i].x, blobs[i].y);
-
-	}
+	//vc_binary_close(image, src, 3);
 
 
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//IVC* dst = vc_image_new(src->width, src->height, 1, 255);
 
-	vc_write_image("testelabelling.ppm", labelling);
-	vc_image_free(dst);
-	vc_image_free(labelling);
+	//vc_binary_open(src, dst, 3);
+
+	//vc_image_free(image);
+	//vc_image_free(src);
+
+	//vc_write_image("teste.ppm", dst);
+
+	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	////				Etiquetagem (Labelling) 
+
+	//int nlabels = 0;
+	//IVC* labelling = vc_image_new(dst->width, dst->height, 1, 255);
+	//OVC* blobs = vc_binary_blob_labelling(dst, labelling, &nlabels);
+
+	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	////				Etiquetagem (BLOBS) 
+
+	//int i;
+
+	//vc_binary_blob_info(labelling, blobs, nlabels);
+
+	//printf("\n \n Dados das Moedas \n \n");
+	//printf("Numero de moedas: %i \n", nlabels);
+
+	//for (i = 0; i < nlabels; i++) {
+	//	
+
+	//	printf("Perimetro: %d \n", blobs[i].perimeter);
+	//	printf("Area: %d \n", blobs[i].area);
+	//	printf("Centro de massa: \n X = %d \t Y = %d \n \n", blobs[i].xc, blobs[i].yc);
+
+	//	vc_perimeter_blobs(labelling, blobs[i].width, blobs[i].height, blobs[i].x, blobs[i].y);
+
+	//}
+
+	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	//vc_write_image("testelabelling.ppm", labelling);
+	//vc_image_free(dst);
+	//vc_image_free(labelling);
 
 
-	system("FilterGear testelabelling.ppm");
+	//system("FilterGear testelabelling.ppm");
 
 
-#pragma endregion
+	#pragma endregion
 
 	#pragma endregion
 
@@ -703,7 +703,7 @@ int main(void)
 
 	#pragma endregion
 
-	// prewitt 
+	// prewitt + sobel 
 	#pragma region Aula21-04
 
 	//Variaveis
@@ -791,6 +791,3 @@ int main(void)
 	return 0;
 
 }
-
-
-
