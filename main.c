@@ -2,18 +2,18 @@
 #include "vc.h"
 #include "labelling.h"
 
-//Abrir imagem, alterar e gravar em novo ficheiro
+
 int main(void)
 {
-//Implementar algumas funcões para comecar a por a mao na massa
-#pragma region Aula26-02
+	//Implementar algumas funcões para comecar a por a mao na massa
+	#pragma region Aula26-02
 
 	//Variaveis 
 	/*IVC* image;
 	int x, y, i;
 	long int pos;*/
 
-#pragma region Invert
+	#pragma region Invert
 	//	
 	//	image = vc_read_image("Images/FLIR/flir-01.pgm");
 	//	if (image == NULL)
@@ -32,7 +32,7 @@ int main(void)
 	//	vc_image_free(image);
 #pragma endregion
 
-#pragma region teste.pbm
+	#pragma region teste.pbm
 	//image = vc_image_new(320, 280, 1, 1);
 	//if(image == NULL) {
 	//	printf("ERROR -> vc_image_new():\n\t Out of memory!\n");
@@ -65,7 +65,7 @@ int main(void)
 //	
 #pragma endregion
 
-#pragma region teste2.pbm
+	#pragma region teste2.pbm
 //
 //	image = vc_read_image("teste.pbm");
 //
@@ -93,7 +93,7 @@ int main(void)
 //	vc_image_free(image);
 #pragma endregion
 
-#pragma region CreateImageGradiente1
+	#pragma region CreateImageGradiente1
 
 	//image = vc_image_new(256, 256, 1, 255);
 
@@ -117,7 +117,7 @@ int main(void)
 
 #pragma endregion
 
-#pragma region CreateImageGradiente2
+	#pragma region CreateImageGradiente2
 
 	//image = vc_image_new(256, 256, 1, 255);
 
@@ -142,7 +142,7 @@ int main(void)
 	//vc_image_free(image);
 #pragma endregion
 
-#pragma region CreateImageGradiente3
+	#pragma region CreateImageGradiente3
 
 	//image = vc_image_new(256, 256, 1, 255);
 
@@ -167,15 +167,15 @@ int main(void)
 	//vc_image_free(image);
 #pragma endregion
 
-#pragma endregion
+	#pragma endregion
 
-//Implementar duas funcoes na biblioteca vc.c (vc_grey_negative) (vc_rgb_negative)
-#pragma region Aula03-03
+	//Implementar duas funcoes na biblioteca vc.c (vc_grey_negative) (vc_rgb_negative)
+	#pragma region Aula03-03
 
 	//Variaveis 
 	//IVC* image;
 
-#pragma region GraytoNegative
+	#pragma region GraytoNegative
 
 	/*image = vc_read_image("Images/OldClassic/bridge.pgm");
 
@@ -192,7 +192,7 @@ int main(void)
 
 #pragma endregion
 
-#pragma region RGBtoNegative
+	#pragma region RGBtoNegative
 
 	/*image = vc_read_image("Images/Classic/airplane.ppm");
 
@@ -209,15 +209,15 @@ int main(void)
 
 #pragma endregion
 
-#pragma endregion
+	#pragma endregion
 
-//Implementacao de funcoes para isolar um cor (R||G||B) e outra para RGB to GRAY
-#pragma region Aula05-03
+	//Implementacao de funcoes para isolar um cor (R||G||B) e outra para RGB to GRAY
+	#pragma region Aula05-03
 
 	//Variaveis 
 	/*IVC* image, *src, *dst;*/
 
-#pragma region Red OUT
+	#pragma region Red OUT
 
 	/*image = vc_read_image("Images/Classic/pepper.ppm");
 
@@ -234,7 +234,7 @@ int main(void)
 
 #pragma endregion
 
-#pragma region Green OUT
+	#pragma region Green OUT
 
 	/*image = vc_read_image("Images/Classic/pepper.ppm");
 
@@ -251,7 +251,7 @@ int main(void)
 
 #pragma endregion
 
-#pragma region Blue OUT
+	#pragma region Blue OUT
 
 	/*image = vc_read_image("Images/Classic/pepper.ppm");
 
@@ -269,7 +269,7 @@ int main(void)
 
 #pragma endregion
 
-#pragma region RGB to GRAY
+	#pragma region RGB to GRAY
 
 	//src = vc_read_image("Images/Classic/pepper.ppm");
 
@@ -293,15 +293,15 @@ int main(void)
 
 #pragma endregion
 
-#pragma endregion
+	#pragma endregion
 
-//Explicacao de HSV implementatacao de RGBtoHSV ficou por terminar a HSV_Segmentation 
-#pragma region Aula10-03
+	//Explicacao de HSV implementatacao de RGBtoHSV ficou por terminar a HSV_Segmentation 
+	#pragma region Aula10-03
 
 	//Variaveis
 	//IVC* image;
 
-#pragma region RGBtoHSV
+	#pragma region RGBtoHSV
 	/*image = vc_read_image("Images/Imagens de Teste para HSV/HSVTestImage01.ppm");
 
 	if (image == NULL)
@@ -316,20 +316,20 @@ int main(void)
 	vc_image_free(image);*/
 #pragma endregion
 
-#pragma region hsv_segmentation
+	#pragma region hsv_segmentation
 
 	//COMPLETAR NA PROXIMA AULA 
 #pragma endregion
 
-#pragma endregion
+	#pragma endregion
 
-//Continuação da funcao hsv_segmentation e implementacao da funcao gray2rgb
-#pragma region Aula12-03
+	//Continuação da funcao hsv_segmentation e implementacao da funcao gray2rgb
+	#pragma region Aula12-03
 	
 	//Variaveis
 	//IVC* image, *src, *dst, *new;
 
-#pragma region hsv_segmentation
+	#pragma region hsv_segmentation
 	//image = vc_read_image("Images/Imagens de Teste para HSV/HSVTestImage01.ppm");
 	//if (image == NULL)
 	//{
@@ -353,7 +353,7 @@ int main(void)
 
 #pragma endregion
 
-#pragma region gray_to_RGB
+	#pragma region gray_to_RGB
 
 	//src = vc_read_image("Images/gray2rgb_res/gray2rgb_testpat.ppm");
 	//
@@ -388,15 +388,15 @@ int main(void)
 #pragma endregion
 
 
-#pragma endregion
+	#pragma endregion
 
-//Tranformação de Pic cinza em binary usando varios metodos
-#pragma region Aula17-03
+	//Tranformação de Pic cinza em binary usando varios metodos
+	#pragma region Aula17-03
 
 	//Variaveis
 	//IVC* image, * src, * dst;
 
-#pragma region vc_gray_to_binary
+	#pragma region vc_gray_to_binary
 	/*image = vc_read_image("Images/Imagens de Teste para Segmentação/thresholdingImg.pgm");
 
 	if (image == NULL)
@@ -413,7 +413,7 @@ int main(void)
 	system("FilterGear binary+thresh.ppm");*/
 #pragma endregion
 
-#pragma region vc_gray_to_binary_global_mean
+	#pragma region vc_gray_to_binary_global_mean
 	/*image = vc_read_image("Images/Imagens de Teste para Segmentação/thresholdingImg.pgm");
 
 	if (image == NULL)
@@ -430,7 +430,7 @@ int main(void)
 	system("FilterGear threshold.ppm");*/
 #pragma endregion
 
-#pragma region vc_gray_to_binary_midpoint
+	#pragma region vc_gray_to_binary_midpoint
 	//src = vc_read_image("Images/Imagens de Teste para Segmentação/thresholdingImg.pgm");
 
 	////dimensoes img src == dst
@@ -454,15 +454,15 @@ int main(void)
 	//system("FilterGear binarymidpoint.ppm");
 #pragma endregion
 
-#pragma endregion
+	#pragma endregion
 
-// Continuacao da implementacao das funcoes midpoint, niblack
-#pragma region Aula19-03
+	// Continuacao da implementacao das funcoes midpoint, niblack
+	#pragma region Aula19-03
 
 	//Variaveis
 	//IVC* image, * src, * dst;
 
-#pragma region vc_gray_to_binary_niblack
+	#pragma region vc_gray_to_binary_niblack
 	//src = vc_read_image("Images/Imagens de Teste para Segmentação/thresholdingImg.pgm");
 
 	////dimensoes img src == dst
@@ -485,30 +485,30 @@ int main(void)
 
 #pragma endregion
 
-#pragma endregion
+	#pragma endregion
 
-// Continuação das atividade da aula anterior
-#pragma region Aula23-03
+	// Continuação das atividade da aula anterior
+	#pragma region Aula23-03
 	//Continuação da implementação da funcao niblack
-#pragma endregion
+	#pragma endregion
 
-//Implementação das funçoes de erosao e dilatação
-#pragma region Aula26-03
+	//Implementação das funçoes de erosao e dilatação
+	#pragma region Aula26-03
 
-#pragma endregion
+	#pragma endregion
 
-//Blobs ou etiquetas
-#pragma region Aula07-04
-	//Funcao ja implementada mas os testes serao feitos na proxima aula
-#pragma endregion
+	//Blobs ou etiquetas
+	#pragma region Aula07-04
+		//Funcao ja implementada mas os testes serao feitos na proxima aula
+	#pragma endregion
 
-//apresentaçao do trabalho pratico + continuaçao da aula anterior
-#pragma region Aula09-04
+	//apresentaçao do trabalho pratico + continuaçao da aula anterior
+	#pragma region Aula09-04
 	
-	//Variaveis
-	//IVC* image, *src, *dst;
+		//Variaveis
+		//IVC* image, *src, *dst;
 
-#pragma region vc_binary_blob_labelling
+	#pragma region vc_binary_blob_labelling
 
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//              Thresh global mean + negative
@@ -568,78 +568,99 @@ int main(void)
 	//system("FilterGear teste.ppm");
 
 
-#pragma endregion
+	#pragma endregion
 
-#pragma endregion
+	#pragma endregion
 
-//blob_info 
-#pragma region Aula14-04
+	//blob_info 
+	#pragma region Aula14-04
 	
 
-#pragma region vc_binary_blob_info
+	#pragma region vc_binary_blob_info
 
-	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	////              Thresh global mean + negative
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//              Thresh global mean + negative
 
-	//IVC* image = vc_read_image("Images/Imagens de Teste para Segmentação/coins.pgm");
+	IVC* image = vc_read_image("Images/Imagens de Teste para Segmentação/coins.pgm");
 
-	//if (image == NULL)
-	//{
-	//	printf("ERROR -> vc_read_image(): \n\tFile not found\n");
-	//	getchar();
-	//	return 0;
-	//}
+	if (image == NULL)
+	{
+		printf("ERROR -> vc_read_image(): \n\tFile not found\n");
+		getchar();
+		return 0;
+	}
 
-	//vc_gray_to_binary_global_mean(image);
-	//vc_gray_negative(image);
-	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	////				Close(k = 3) + Open(k = 3)
-
-
-	//IVC* src = vc_image_new(image->width, image->height, 1, 255);
-
-	//vc_binary_close(image, src, 3);
+	vc_gray_to_binary_global_mean(image);
+	vc_gray_negative(image);
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//				Close(k = 3) + Open(k = 3)
 
 
-	//IVC* dst = vc_image_new(src->width, src->height, 1, 255);
+	IVC* src = vc_image_new(image->width, image->height, 1, 255);
 
-	//vc_binary_open(src, dst, 3);
-
-	//vc_image_free(image);
-	//vc_image_free(src);
-
-	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	////				Etiquetagem (Labelling) 
-
-	//int nlabels = 0;
-	//IVC* labelling = vc_image_new(dst->width, dst->height, 1, 255);
-	//OVC* blobs = vc_binary_blob_labelling(dst, labelling, &nlabels);
-
-	//printf("labels: %i \n", nlabels);
-
-	//vc_binary_blob_info(labelling, blobs, nlabels);
-
-	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-	//vc_write_image("testelabelling.ppm", labelling);
-	//vc_image_free(dst);
-	//vc_image_free(labelling);
+	vc_binary_close(image, src, 3);
 
 
-	//system("FilterGear testelabelling.ppm");
+	IVC* dst = vc_image_new(src->width, src->height, 1, 255);
+
+	vc_binary_open(src, dst, 3);
+
+	vc_image_free(image);
+	vc_image_free(src);
+
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//				Etiquetagem (Labelling) 
+
+	int nlabels = 0;
+	IVC* labelling = vc_image_new(dst->width, dst->height, 1, 255);
+	OVC* blobs = vc_binary_blob_labelling(dst, labelling, &nlabels);
+
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//				Etiquetagem (BLOBS) 
+
+	int i, obj = 0;
+
+	vc_binary_blob_info(labelling, blobs, nlabels);
+
+	printf("\n \n Dados das Moedas \n \n");
+	printf("Numero de moedas: %i \n", nlabels);
+
+	for (i = 0; i < nlabels; i++) {
+		
+		obj = obj + 1;
+
+		printf("Perimetro: %d \n", blobs[i].perimeter);
+		printf("Area: %d \n", blobs[i].area);
+		printf("Centro de massa: \n X = %d \t Y = %d \n \n", blobs[i].xc, blobs[i].yc);
+
+		vc_perimeter_blobs(labelling, blobs[i].width, blobs[i].height, blobs[i].x, blobs[i].y);
+
+	}
+
+
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	vc_write_image("testelabelling.ppm", labelling);
+	vc_image_free(dst);
+	vc_image_free(labelling);
+
+
+	system("FilterGear testelabelling.ppm");
 
 
 #pragma endregion
 
-#pragma endregion
+	#pragma endregion
 
-//histograma 
-#pragma region Aula16-04 
+	//histograma 
+	#pragma region Aula16-04 
 	
 	//Variaveis
 	/*IVC* image, *src, *dst;*/
 
-#pragma region vc_gray_histogram
+	#pragma region vc_gray_histogram
 
 	//image = vc_read_image("Images/Imagens de Teste para Histograma/tire.pgm");
 
@@ -680,39 +701,39 @@ int main(void)
 
 #pragma endregion
 
-#pragma endregion
+	#pragma endregion
 
-// prewitt 
-#pragma region Aula21-04
+	// prewitt 
+	#pragma region Aula21-04
 
 	//Variaveis
-	IVC* image, *dst;
+	//IVC* image, *dst;
 
 	//Perguntar ao prof pk tudo branco!!!
-#pragma region vc_gray_edge_prewitt
+	#pragma region vc_gray_edge_prewitt
 
-	/*image = vc_read_image("Images/OldClassic/cameraman.pgm");
+		/*image = vc_read_image("Images/OldClassic/cameraman.pgm");
 
-	if (image == NULL)
-	{
-		printf("ERROR -> vc_read_image(): \n\tFile not found\n");
-		getchar();
-		return 0;
-	}
+		if (image == NULL)
+		{
+			printf("ERROR -> vc_read_image(): \n\tFile not found\n");
+			getchar();
+			return 0;
+		}
 
-	dst = vc_image_new(image->width, image->height, 1, 255);
+		dst = vc_image_new(image->width, image->height, 1, 255);
 
-	vc_gray_edge_prewitt(image, dst, 0.80);
-	vc_write_image("prewitt.pgm", dst);
+		vc_gray_edge_prewitt(image, dst, 0.80);
+		vc_write_image("prewitt.pgm", dst);
 
-	system("FilterGear prewitt.pgm");
+		system("FilterGear prewitt.pgm");
 
-	vc_image_free(image);
-	vc_image_free(dst);*/
+		vc_image_free(image);
+		vc_image_free(dst);*/
 
-#pragma endregion
+	#pragma endregion
 
-#pragma region vc_gray_edge_sobel
+	#pragma region vc_gray_edge_sobel
 	/*image = vc_read_image("Images/OldClassic/cameraman.pgm");
 
 	if (image == NULL)
@@ -734,35 +755,35 @@ int main(void)
 
 #pragma endregion
 
-#pragma region RGB -> Gray + prewitt
+	#pragma region RGB -> Gray + prewitt
 	
-	image = vc_read_image("Images/Classic/lenna.ppm");
+		//image = vc_read_image("Images/Classic/lenna.ppm");
 
-	if (image == NULL)
-	{
-		printf("error -> vc_read_image():\n\tFile not found!\n");
-		getchar();
-		return 0;
-	}
+		//if (image == NULL)
+		//{
+		//	printf("error -> vc_read_image():\n\tFile not found!\n");
+		//	getchar();
+		//	return 0;
+		//}
 
-	//RGB -> GRAY
-	IVC* gray = vc_image_new(image->width, image->height, 1, 255);
-	vc_rgb_to_gray(image, gray);
+		////RGB -> GRAY
+		//IVC* gray = vc_image_new(image->width, image->height, 1, 255);
+		//vc_rgb_to_gray(image, gray);
 
-	//PREWITT
-	IVC* edge = vc_image_new(gray->width, gray->height, 1, 255);
-	vc_gray_edge_prewitt(gray, edge, 0.90);
+		////PREWITT
+		//IVC* edge = vc_image_new(gray->width, gray->height, 1, 255);
+		//vc_gray_edge_prewitt(gray, edge, 0.90);
 
-	vc_write_image("edge.pgm", edge);
-	system("FilterGear edge.pgm");
+		//vc_write_image("edge.pgm", edge);
+		//system("FilterGear edge.pgm");
 
-	vc_image_free(image);
-	vc_image_free(gray);
-	vc_image_free(edge);
-#pragma endregion 
+		//vc_image_free(image);
+		//vc_image_free(gray);
+		//vc_image_free(edge);
+	#pragma endregion 
 
 
-#pragma endregion
+	#pragma endregion
 
 
 	printf("Press any key to exit...\n");
@@ -770,7 +791,6 @@ int main(void)
 	return 0;
 
 }
-
 
 
 

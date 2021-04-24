@@ -1,5 +1,18 @@
-﻿  main.c
-C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\main.c(755,39): warning C4305: 'function': truncation from 'double' to 'float'
-C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\main.c(758,8): warning C4013: 'system' undefined; assuming extern returning int
-C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\main.c(690,15): warning C4101: 'dst': unreferenced local variable
+﻿  labelling.c
+  main.c
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\main.c(650,8): warning C4013: 'system' undefined; assuming extern returning int
+  vc.c
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(661,69): warning C4244: '=': conversion from 'double' to 'unsigned char', possible loss of data
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(828,41): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(829,45): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(830,45): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1116,55): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1122,23): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1393,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1395,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1408,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1433,45): warning C4244: '=': conversion from 'float' to 'unsigned char', possible loss of data
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1638,12): warning C4101: 'i': unreferenced local variable
+  Generating Code...
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1662): warning C4715: 'vc_perimeter': not all control paths return a value
   VC-P0001.vcxproj -> C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\Debug\VC-P0001.exe

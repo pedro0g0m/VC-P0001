@@ -1199,7 +1199,6 @@ int vc_binary_dilate(IVC* src, IVC* dst, int kernel)
 
 			datadst[pos] = aux;
 
-
 		}
 	}
 
@@ -1626,4 +1625,38 @@ int vc_gray_edge_sobel(IVC* src, IVC* dst, float th)
 	}
 
 	return 1;
+}
+
+//Desenha em quadrado no blob encontrado
+int vc_perimeter_blobs(IVC* src, int bwidth, int bheight, int bx, int by)
+{
+	unsigned char* data = (unsigned char*)src->data;
+	int width = src->width;
+	int height = src->height;
+	int bytesperline = src->bytesperline;
+	int channels = src->channels;
+	int x, y, i;
+	long int pos;
+
+	// Verificar erro..
+	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL)) return 0;
+	if (channels != 1) return 0;
+
+	for (x = 0; x < width; x++)
+	{
+		for (y = 0; y < height; y++)
+		{
+			pos = y * bytesperline + x * channels;
+
+			if (x >= bx - 2 && x <= (bx + bwidth) && y == by - 2 || x >= bx - 2 && x <= (bx + bwidth) && y == by + bheight)
+			{
+				data[pos] = 255;
+			}
+			if (x == bx - 2 && y >= by - 2 && y <= (by + bheight) || x == bx + bwidth && y >= by - 2 && y <= (by + bheight))
+			{
+				data[pos] = 255;
+			}
+
+		}
+	}
 }
