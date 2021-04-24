@@ -986,7 +986,6 @@ int vc_gray_to_binary_global_mean(IVC* srcdst)
 	}
 
 	return 1;
-
 }
 
 //Use prime numbers to kernel
@@ -1659,4 +1658,6 @@ int vc_perimeter_blobs(IVC* src, int bwidth, int bheight, int bx, int by)
 
 		}
 	}
+
+	return 1;
 }
