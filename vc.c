@@ -1639,7 +1639,6 @@ int vc_perimeter_blobs(IVC* src, int bwidth, int bheight, int bx, int by)
 
 	// Verificar erro..
 	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL)) return 0;
-	if (channels != 1) return 0;
 
 	for (x = 0; x < width; x++)
 	{
@@ -1650,10 +1649,47 @@ int vc_perimeter_blobs(IVC* src, int bwidth, int bheight, int bx, int by)
 			if (x >= bx - 2 && x <= (bx + bwidth) && y == by - 2 || x >= bx - 2 && x <= (bx + bwidth) && y == by + bheight)
 			{
 				data[pos] = 255;
+				data[pos+1] = 255;
+				data[pos+2] = 255;
 			}
 			if (x == bx - 2 && y >= by - 2 && y <= (by + bheight) || x == bx + bwidth && y >= by - 2 && y <= (by + bheight))
 			{
 				data[pos] = 255;
+				data[pos + 1] = 0;
+				data[pos + 2] = 0;
+			}
+
+		}
+	}
+
+	return 1;
+}
+
+//Marca o centro de massa do blob encontrado
+int vc_centro_blobs(IVC* src, int bx, int by)
+{
+	unsigned char* data = (unsigned char*)src->data;
+	int width = src->width;
+	int height = src->height;
+	int bytesperline = src->bytesperline;
+	int channels = src->channels;
+	int x, y, i;
+	long int pos;
+
+	// Verificar erro..
+	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL)) return 0;
+
+	for (x = 0; x < width; x++)
+	{
+		for (y = 0; y < height; y++)
+		{
+			pos = y * bytesperline + x * channels;
+
+			if (x == bx && y == by )
+			{
+				data[pos] = 255;
+				data[pos + 1] = 0;
+				data[pos + 2] = 0;
 			}
 
 		}

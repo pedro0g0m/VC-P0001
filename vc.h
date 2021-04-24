@@ -106,3 +106,6 @@ int vc_gray_edge_sobel(IVC* src, IVC* dst, float th);
 
 //Desenha em quadrado no blob encontrado
 int vc_perimeter_blobs(IVC* src, int bwidth, int bheight, int bx, int by);
+
+//Marca o centro de massa do blob encontrado
+int vc_centro_blobs(IVC* src, int bx, int by);
