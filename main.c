@@ -787,107 +787,107 @@ system("FilterGear threshold.ppm");*/
 
 #pragma endregion
 
-	#pragma region Tp1.2
+//Proposta da resolução do TP1.2
+#pragma region Tp1.2
 
-	IVC* srcimage, * wrkimage, * cloimage, * eximage, * openimage, * grayimage, * P2image;
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//						Inicio 
 
-	srcimage = vc_read_image("Images/img2.ppm");
-	wrkimage = vc_read_image("Images/img2.ppm");
-	P2image = vc_read_image("Images/img2.ppm");
-
-	if (srcimage == NULL)
+	// Carregar a imagem para memória 
+	IVC* src = vc_read_image("Images/img2.ppm");
+	
+	// Verificação de erro
+	if (src == NULL)
 	{
 		printf("ERROR -> vc_read_image(): \n\tFile not found\n");
 		getchar();
 		return 0;
 	}
 
-	//P2image = vc_image_new(srcimage->width, srcimage->height, 1, 255);
-	grayimage = vc_image_new(srcimage->width, srcimage->height, 1, 255);
-	openimage = vc_image_new(srcimage->width, srcimage->height, 1, 1);
-	cloimage = vc_image_new(srcimage->width, srcimage->height, 1, 1);
-	eximage = vc_image_new(srcimage->width, srcimage->height, 1, 255);
-	//labelling = vc_image_new(srcimage->width, srcimage->height, 1, 255);
+	// Conerção de RGB para HSV
+	vc_rgb_to_hsv(src);
 
-	// saves image
-	//vc_write_image("input.ppm", image);
-	//system("cmd /c start FilterGear input.ppm");
+	// Isolamos o centro das celulas atraves da sua cor
+	vc_hsv_segmentation(src, 189, 240, 50, 100, 30, 100);
 
-	vc_rgb_to_hsv(wrkimage);
+	// Confirmação dos resultados
+	vc_write_image("src2.ppm", src);
+	system("cmd /c start FilterGear src2.ppm");
 
-	vc_hsv_segmentation(wrkimage, 189, 240, 50, 100, 30, 100);
+	// Conversão para uma imagem GRAY
+	IVC* gray = vc_image_new(src->width, src->height, 1, 255);  // <-- definição de uma nova imagem com as dimensões da imagem source 
+	vc_rgb_to_gray(src, gray);
 
-	vc_rgb_to_gray(wrkimage, grayimage);
+	// Conversão da imagem para binario
+	vc_gray_to_binary_global_mean(gray);
+	//vc_gray_to_binary(grayimage, 50);
 
-	vc_gray_to_binary(grayimage, 50);
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//					Operadores Morfológicos 
 
+	// Preenchimentos de falhas dos nucleos
+	IVC* close = vc_image_new(src->width, src->height, 1, 1);	// <-- definição de uma nova imagem com as dimensões da imagem source
+	vc_binary_close(gray, close, 7);
 
+	// Remosão de ruídos
+	IVC* open = vc_image_new(src->width, src->height, 1, 1);	// <-- definição de uma nova imagem com as dimensões da imagem source
+	vc_binary_open(close, open, 7);
 
-	//vc_write_image("P2imageGray.ppm", grayimage);
-	//system("FilterGear P2imageGray.ppm");
+	// Libertar memória
+	vc_image_free(src);
+	vc_image_free(gray);
 
-
-	vc_binary_close(grayimage, cloimage, 7);
-
-	vc_binary_open(cloimage, openimage, 7);
-
-
-	//vc_write_image("P2image.ppm", cloimage);
-	//system("FilterGear P2image.ppm.ppm");
-	//vc_image_free(image);
-	vc_image_free(wrkimage);
-	vc_image_free(grayimage);
-	//vc_image_free(openimage);
-	//Dilate
-
-
-	//save image
-	vc_write_image("outputP2.pgm", openimage);
+	// Confirmação dos resultados
+	vc_write_image("outputP2.pgm", open);
 	system("cmd /c start FilterGear outputP2.pgm");
 
 
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//				Etiquetagem (Labelling) 
 
+	// Variaveis
 	int nlabels = 0;
-	IVC* labelling = vc_image_new(openimage->width, openimage->height, 1, 255);
-	OVC* blobs = vc_binary_blob_labelling(openimage, labelling, &nlabels);
+	IVC* labelling = vc_image_new(open->width, open->height, 1, 255);	// <-- definição de uma nova imagem com as dimensões da imagem resultada da função open
+
+	// Identificou-se os blobs 
+	OVC* blobs = vc_binary_blob_labelling(open, labelling, nlabels);
+
 
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//					  BLOBS
 
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//				Etiquetagem (BLOBS) 
-
-	int i, obj = 0;
-
+	// Obtenção da informação dos Blobs identificados
 	vc_binary_blob_info(labelling, blobs, nlabels);
 
 	printf("\n \n Dados do nucleo das celulas \n \n");
 	printf("Numero de celulas: %i \n", nlabels);
 
-	for (i = 0; i < nlabels; i++) {
+	// Carregar a imagem para memória 
+	IVC* finalimage = vc_read_image("Images/img2.ppm");
 
-		obj = obj + 1;
+	//	Impressão da informação recolhido
+	for (int i = 0; i < nlabels; i++) {
 
 		printf("Perimetro: %d \n", blobs[i].perimeter);
 		printf("Area: %d \n", blobs[i].area);
 		printf("Centro de massa: \n X = %d \t Y = %d \n \n", blobs[i].xc, blobs[i].yc);
 
-		vc_perimeter_blobs(P2image, blobs[i].width, blobs[i].height, blobs[i].x, blobs[i].y);
-		vc_centro_blobs(P2image, blobs[i].xc, blobs[i].yc);
+		vc_perimeter_blobs(finalimage, blobs[i].width, blobs[i].height, blobs[i].x, blobs[i].y);
+		vc_centro_blobs(finalimage, blobs[i].xc, blobs[i].yc);
 
 	}
 
+	//Confirmação dos resultados
+	vc_write_image("P2.pgm", finalimage);
+	system("FilterGear P2.pgm");
+
+	// Libertar memória
+	vc_image_free(labelling);
+	vc_image_free(open);
+
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-	vc_write_image("P2.pgm", P2image);
-	system("FilterGear P2.pgm");
-	//vc_image_free(open);
-	vc_image_free(labelling);
-	vc_image_free(openimage);
-
-
-
+	
 #pragma endregion
 
 

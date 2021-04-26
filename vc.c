@@ -1373,7 +1373,7 @@ int vc_gray_histogram(IVC* src, IVC* dst)
 }
 
 //FUNÇÃO CÁLCULO DO HISTOGRAMA
-int vc_gray_histogram_equalization(IVC* src, IVC* srcD)
+int vc_gray_histogram_equalization(IVC* src, IVC* dst)
 {
 	unsigned char* data = (unsigned char*)src->data;
 	int width = src->width, height = src->height;
@@ -1387,8 +1387,22 @@ int vc_gray_histogram_equalization(IVC* src, IVC* srcD)
 	float cdf[256];
 	int i;
 
-	if ((width <= 0) || (height <= 0) || (data == NULL) || (channels != 1))
+	//verificar erros
+	if (src == NULL)
+	{
+		printf("ERROR -> vc_gray_histogram_equalization():\n\tImage is empty!\n");
+		getchar();
 		return 0;
+	}
+
+	if (src->width <= 0 || src->height <= 0 || src->data == NULL)
+	{
+		printf("ERROR -> vc_gray_histogram_equalization():\n\tDimensoes or data are missing!\n");
+		getchar();
+		return 0;
+	}
+
+
 	for (size_t y = 0; y < height; y++)
 	{
 		for (size_t x = 0; x < width; x++)
@@ -1404,16 +1418,16 @@ int vc_gray_histogram_equalization(IVC* src, IVC* srcD)
 		if (pdf[i] > pdfmax) pdfmax = pdf[i];
 	}
 	double temp;
-	for (size_t x = 0; x < srcD->width; x++)
+	for (size_t x = 0; x < dst->width; x++)
 	{
 		temp = (float)((float)pdf[x] * (float)255 / pdfmax);
-		for (int y = srcD->height - 1; y >= 0; y--)
+		for (int y = dst->height - 1; y >= 0; y--)
 		{
-			pos = y * srcD->bytesperline + x * srcD->channels;
+			pos = y * dst->bytesperline + x * dst->channels;
 			if ((double)y > 255 - temp)
-				srcD->data[pos] = (unsigned char)0;
+				dst->data[pos] = (unsigned char)0;
 			else
-				srcD->data[pos] = (unsigned char)255;
+				dst->data[pos] = (unsigned char)255;
 		}
 	}
 	//CALCULA O GRÁFICO CDF
@@ -1429,7 +1443,7 @@ int vc_gray_histogram_equalization(IVC* src, IVC* srcD)
 		for (int x = 0; x < width; x++)
 		{
 			pos = y * bytesperline + x * channels;
-			srcD->data[pos] = cdf[data[pos]] * levels;
+			dst->data[pos] = cdf[data[pos]] * levels;
 		}
 	}
 	return 1;
@@ -1451,10 +1465,21 @@ int vc_gray_edge_prewitt(IVC* src, IVC* dst, float th)
 	int sumx, sumy;
 	int hist[256] = { 0 };
 
-	// Verificação de erros
-	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL)) return 0;
-	if ((src->width != dst->width) || (src->height != dst->height) || (src->channels != dst->channels)) return 0;
-	if (channels != 1) return 0;
+	//verificar erros
+	if (src == NULL)
+	{
+		printf("ERROR -> vc_gray_edge_prewitt():\n\tImage is empty!\n");
+		getchar();
+		return 0;
+	}
+
+	if (src->width <= 0 || src->height <= 0 || src->data == NULL)
+	{
+		printf("ERROR -> vc_gray_edge_prewitt():\n\tDimensoes or data are missing!\n");
+		getchar();
+		return 0;
+	}
+
 
 	size = width * height;
 
@@ -1546,10 +1571,27 @@ int vc_gray_edge_sobel(IVC* src, IVC* dst, float th)
 	int sumx, sumy;
 	int hist[256] = { 0 };
 
-	// Verificação de erros
-	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL)) return 0;
-	if ((src->width != dst->width) || (src->height != dst->height) || (src->channels != dst->channels)) return 0;
-	if (channels != 1) return 0;
+	//verificar erros
+	if (src == NULL)
+	{
+		printf("ERROR -> vc_gray_edge_sobel():\n\tImage is empty!\n");
+		getchar();
+		return 0;
+	}
+
+	if (src->width <= 0 || src->height <= 0 || src->data == NULL)
+	{
+		printf("ERROR -> vc_gray_edge_sobel():\n\tDimensoes or data are missing!\n");
+		getchar();
+		return 0;
+	}
+
+	if (src->channels != 1 || dst->channels != 1)
+	{
+		printf("ERROR -> vc_gray_edge_sobel():\n\tNot Gray Image!\n");
+		getchar();
+		return 0;
+	}
 
 	size = width * height;
 
@@ -1637,8 +1679,21 @@ int vc_perimeter_blobs(IVC* src, int bwidth, int bheight, int bx, int by)
 	int x, y, i;
 	long int pos;
 
-	// Verificar erro..
-	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL)) return 0;
+	//verificar erros
+	if (src == NULL)
+	{
+		printf("ERROR -> vc_perimeter_blobs():\n\tImage is empty!\n");
+		getchar();
+		return 0;
+	}
+
+	if (src->width <= 0 || src->height <= 0 || src->data == NULL)
+	{
+		printf("ERROR -> vc_perimeter_blobs():\n\tDimensoes or data are missing!\n");
+		getchar();
+		return 0;
+	}
+
 
 	for (x = 0; x < width; x++)
 	{
@@ -1655,8 +1710,8 @@ int vc_perimeter_blobs(IVC* src, int bwidth, int bheight, int bx, int by)
 			if (x == bx - 2 && y >= by - 2 && y <= (by + bheight) || x == bx + bwidth && y >= by - 2 && y <= (by + bheight))
 			{
 				data[pos] = 255;
-				data[pos + 1] = 0;
-				data[pos + 2] = 0;
+				data[pos + 1] = 255;
+				data[pos + 2] = 255;
 			}
 
 		}
@@ -1676,8 +1731,20 @@ int vc_centro_blobs(IVC* src, int bx, int by)
 	int x, y, i;
 	long int pos;
 
-	// Verificar erro..
-	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL)) return 0;
+	//verificar erros
+	if (src == NULL)
+	{
+		printf("ERROR -> vc_centro_blobs():\n\tImage is empty!\n");
+		getchar();
+		return 0;
+	}
+
+	if (src->width <= 0 || src->height <= 0 || src->data == NULL)
+	{
+		printf("ERROR -> vc_centro_blobs():\n\tDimensoes or data are missing!\n");
+		getchar();
+		return 0;
+	}
 
 	for (x = 0; x < width; x++)
 	{
