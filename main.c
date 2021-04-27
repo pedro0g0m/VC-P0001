@@ -808,7 +808,7 @@ system("FilterGear threshold.ppm");*/
 	vc_rgb_to_hsv(src);
 
 	// Isolamos o centro das celulas atraves da sua cor
-	vc_hsv_segmentation(src, 189, 240, 50, 100, 30, 100);
+	vc_hsv_segmentation(src, 200, 250, 85, 100, 40, 100);
 
 	// Confirmação dos resultados
 	vc_write_image("src2.ppm", src);
@@ -850,7 +850,7 @@ system("FilterGear threshold.ppm");*/
 	IVC* labelling = vc_image_new(open->width, open->height, 1, 255);	// <-- definição de uma nova imagem com as dimensões da imagem resultada da função open
 
 	// Identificou-se os blobs 
-	OVC* blobs = vc_binary_blob_labelling(open, labelling, nlabels);
+	OVC* blobs = vc_binary_blob_labelling(open, labelling, &nlabels);
 
 
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
