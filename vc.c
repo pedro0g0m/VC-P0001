@@ -1704,14 +1704,14 @@ int vc_perimeter_blobs(IVC* src, int bwidth, int bheight, int bx, int by)
 			if (x >= bx - 2 && x <= (bx + bwidth) && y == by - 2 || x >= bx - 2 && x <= (bx + bwidth) && y == by + bheight)
 			{
 				data[pos] = 255;
-				data[pos+1] = 255;
-				data[pos+2] = 255;
+				data[pos + 1] = 255;
+				data[pos + 2] = 255;
 			}
 			if (x == bx - 2 && y >= by - 2 && y <= (by + bheight) || x == bx + bwidth && y >= by - 2 && y <= (by + bheight))
 			{
 				data[pos] = 255;
-				data[pos + 1] = 255;
-				data[pos + 2] = 255;
+				data[pos + 1] = 0;
+				data[pos + 2] = 0;
 			}
 
 		}
@@ -1752,13 +1752,118 @@ int vc_centro_blobs(IVC* src, int bx, int by)
 		{
 			pos = y * bytesperline + x * channels;
 
-			if (x == bx && y == by )
+			if (x == bx && y == by)
 			{
 				data[pos] = 255;
 				data[pos + 1] = 0;
 				data[pos + 2] = 0;
 			}
 
+		}
+	}
+
+	return 1;
+}
+
+//Pixels com tons de cinza superiores ao Tone ficao pretos
+int vc_gray_select(IVC* srcdst, int tone)
+{
+	unsigned char* data = (unsigned char*)srcdst->data;
+	int with = srcdst->width;
+	int height = srcdst->height;
+	int bytesperline = srcdst->width * srcdst->channels;
+	int channels = srcdst->channels;
+	int x, y;
+	long int pos;
+
+	//verifica erros
+	if (srcdst == NULL)
+	{
+		printf("ERROR -> vc_gray_negative():\n\tImage is empty!\n");
+		getchar();
+		return 0;
+	}
+
+	if (srcdst->width <= 0 || srcdst->height <= 0 || srcdst->data == NULL)
+	{
+		printf("ERROR -> vc_gray_negative():\n\tDimensoes or data are missing!\n");
+		getchar();
+		return 0;
+	}
+
+	if (channels != 1)
+	{
+		printf("ERROR -> vc_gray_negative():\n\tNot Gray Image!\n");
+		getchar();
+		return 0;
+	}
+
+	for (y = 0; y < height; y++)
+	{
+		for (x = 0; x < with; x++)
+		{
+			pos = y * bytesperline + x * channels;
+
+			if (data[pos] > tone) {
+				data[pos] = 0;
+			}
+		}
+	}
+
+	return 1;
+}
+
+//Remove pixels não relevantes
+int vc_transposal(IVC* src, IVC* dst) {
+	unsigned char* datasrc = (unsigned char*)src->data;
+	int bytesperlin_src = src->width * src->channels;
+	int channels_src = src->channels;
+	int width = src->width;
+	int height = src->height;
+	long int pos;
+	int x, y;
+
+	//verificar erros
+	if (src == NULL)
+	{
+		printf("ERROR -> vc_rgb_to_gray():\n\tImage is empty!\n");
+		getchar();
+		return 0;
+	}
+
+	if (dst == NULL)
+	{
+		printf("ERROR -> vc_rgb_to_gray():\n\tImage is empty!\n");
+		getchar();
+		return 0;
+	}
+
+	if (src->width <= 0 || src->height <= 0 || src->data == NULL)
+	{
+		printf("ERROR -> vc_rgb_to_gray():\n\tDimensoes or data are missing!\n");
+		getchar();
+		return 0;
+	}
+
+	if (dst->width <= 0 || dst->height <= 0 || dst->data == NULL)
+	{
+		printf("ERROR -> vc_rgb_to_gray():\n\tDimensoes or data are missing!\n");
+		getchar();
+		return 0;
+	}
+
+
+	
+	for (y = 0; y < height; y++)
+	{
+		for (x = 0; x < width; x++)
+		{
+			pos = y * bytesperlin_src + x * channels_src;
+
+			if (datasrc[pos] == 0) {
+				
+				dst->data[pos] = 0;
+			}
 		}
 	}
 

@@ -109,3 +109,9 @@ int vc_perimeter_blobs(IVC* src, int bwidth, int bheight, int bx, int by);
 
 //Marca o centro de massa do blob encontrado
 int vc_centro_blobs(IVC* src, int bx, int by);
+
+//Pixels com tons de cinza superiores ao Tone ficao pretos
+int vc_gray_select(IVC* srcdst, int tone);
+
+//Remove partes não relevantes da imagem 
+int vc_transposal(IVC* src, IVC* dst);

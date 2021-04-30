@@ -1,2 +1,17 @@
-﻿  main.c
+﻿  labelling.c
+  main.c
+  vc.c
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(661,69): warning C4244: '=': conversion from 'double' to 'unsigned char', possible loss of data
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(828,41): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(829,45): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(830,45): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1115,55): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1121,23): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1406,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1408,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1421,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1446,44): warning C4244: '=': conversion from 'float' to 'unsigned char', possible loss of data
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1679,12): warning C4101: 'i': unreferenced local variable
+C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\VC-P0001\vc.c(1731,12): warning C4101: 'i': unreferenced local variable
+  Generating Code...
   VC-P0001.vcxproj -> C:\Users\Pedro\Desktop\Ipca\Visao\CodeAula\VC-P0001\Debug\VC-P0001.exe
