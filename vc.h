@@ -115,3 +115,5 @@ int vc_gray_select(IVC* srcdst, int tone);
 
 //Remove partes não relevantes da imagem 
 int vc_transposal(IVC* src, IVC* dst);
+
+int vc_gray_lowpass_mean_filter(IVC* src, IVC* dst);

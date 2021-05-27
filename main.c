@@ -787,114 +787,117 @@ system("FilterGear threshold.ppm");*/
 
 #pragma endregion
 
+//Resolução do 1 Trabalho Pratico
+#pragma region Tp1
+
 //Proposta da resolução do TP1.1
 #pragma region Tp1.1
 
-	// Carregar a imagem do cerebro para memória
-	IVC* image_inicial = vc_read_image("Images/img1.pgm");
-	
-	// Verificação de erro ao abrir a imagem inicial
-	if (image_inicial == NULL)
-	{
-		printf("ERROR -> vc_read_image(): \n\tFile not found\n");
-		getchar();
-		return 0;
-	}
+//	// Carregar a imagem do cerebro para memória
+//	IVC* image_inicial = vc_read_image("Images/img1.pgm");
+//	
+//	// Verificação de erro ao abrir a imagem inicial
+//	if (image_inicial == NULL)
+//	{
+//		printf("ERROR -> vc_read_image(): \n\tFile not found\n");
+//		getchar();
+//		return 0;
+//	}
+//
+//	//Excluimos partes dos cranio atraves do seu tom de cinza
+//	vc_gray_select(image_inicial, 220);
+//
+//	// Confirmação dos resultados
+//	/*vc_write_image("tone.pgm", image);
+//	system("FilterGear tone.pgm");*/
+//
+//	//Convertemos para binario a imagem com um treshold manual para eliminar partes do cranio. 
+//	vc_gray_to_binary(image_inicial, 70);
+//
+//	// Confirmação dos resultados
+//	/*vc_write_image("P1imagethr.pgm", image);
+//	system("FilterGear P1imagethr.pgm");*/
+//	  
+//	// Remosão de ruídos    **************Verificar se os comentarios fazem sentido com as funçoes que descreve
+//	IVC* open = vc_image_new(image_inicial->width, image_inicial->height, image_inicial->channels, image_inicial->levels); // <-- definição de uma nova imagem com as dimensões da imagem inicial
+//	vc_binary_open(image_inicial, open, 5);
+//	// Confirmação dos resultados
+//	/*vc_write_image("cloimage.pgm", open);
+//	system("FilterGear cloimage.pgm");*/
+//
+//	// Erosão de certos pixels do cranio    **************Verificar se os comentarios fazem sentido com as funçoes que descreve
+//	IVC* erode = vc_image_new(image_inicial->width, image_inicial->height, image_inicial->channels, image_inicial->levels); // <-- definição de uma nova imagem com as dimensões da imagem inicial
+//	vc_binary_erode(open, erode, 5);
+//	// Confirmação dos resultados
+//	/*vc_write_image("cloimage.pgm", erode);
+//	system("FilterGear cloimage.pgm");*/
+//
+//	// Remosão de ruídos    **************Verificar se os comentarios fazem sentido com as funçoes que descreve
+//	IVC* open2 = vc_image_new(image_inicial->width, image_inicial->height, image_inicial->channels, image_inicial->levels); // <-- definição de uma nova imagem com as dimensões da imagem inicial
+//	vc_binary_open(erode, open2, 5);
+//	// Confirmação dos resultados
+//	/*vc_write_image("cloimage.pgm", open2);
+//	system("FilterGear cloimage.pgm");*/
+//
+//	// preenchimento de certas partes do centro do cerebro   **************Verificar se os comentarios fazem sentido com as funçoes que descreve
+//	IVC* dilate = vc_image_new(image_inicial->width, image_inicial->height, image_inicial->channels, image_inicial->levels); // <-- definição de uma nova imagem com as dimensões da imagem inicial
+//	vc_binary_dilate(open2, dilate, 5);
+//	// Confirmação dos resultados
+//	/*vc_write_image("dilate.pgm", dilate);
+//	system("FilterGear dilate.pgm");*/
+//
+//
+//	// Preenchimentos de falhas no perimetro do cerebro        **************Verificar se os comentarios fazem sentido com as funçoes que descreve
+//	IVC* close = vc_image_new(image_inicial->width, image_inicial->height, image_inicial->channels, image_inicial->levels); // <-- definição de uma nova imagem com as dimensões da imagem inicial
+//	vc_binary_dilate(dilate, close, 5);
+//	// Confirmação dos resultados
+//	/*vc_write_image("close.pgm", close);
+//	system("FilterGear close.pgm");*/
+//;	
+//	// Carregar a imagem do cerebro para memória
+//	IVC* image_final = vc_read_image("Images/img1.pgm");
+//
+//	// Removemos a estrutura do crânio
+//	vc_transposal(close, image_final);
+//
+//
+//	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//	//              Etiquetagem (Labelling) 
+//
+//	// Variaveis
+//	int nlabels = 0;
+//
+//	IVC* labelling = vc_image_new(close->width, close->height, 1, 255); // <-- definição de uma nova imagem com as dimensões da imagem close
+//
+//	// Identificou-se os blobs
+//	OVC* blobs = vc_binary_blob_labelling(close, labelling, &nlabels);
+//
+//	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//
+//	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//	//              Etiquetagem (BLOBS) 
+//
+//	// Obtenção da informação dos Blobs identificados
+//	vc_binary_blob_info(labelling, blobs, nlabels);
+//
+//	printf("\n \n Dados do nucleo das celulas \n \n");
+//	printf("Numero de celulas: %i \n", nlabels);
+//
+//	for (int i = 0; i < nlabels; i++) {
+//
+//		printf("Perimetro: %d \n", blobs[i].perimeter);
+//		printf("Area: %d \n", blobs[i].area);
+//		printf("Centro de massa: \n X = %d \t Y = %d \n \n", blobs[i].xc, blobs[i].yc);
+//
+//	}
+//
+//	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//
+//	// Confirmação dos resultados
+//	vc_write_image("image_final.pgm", image_final);
+//	system("FilterGear image_final.pgm");
 
-	//Excluimos partes dos cranio atraves do seu tom de cinza
-	vc_gray_select(image_inicial, 220);
 
-	// Confirmação dos resultados
-	/*vc_write_image("tone.pgm", image);
-	system("FilterGear tone.pgm");*/
-
-	//Convertemos para binario a imagem com um treshold manual para eliminar partes do cranio. 
-	vc_gray_to_binary(image_inicial, 70);
-
-	// Confirmação dos resultados
-	/*vc_write_image("P1imagethr.pgm", image);
-	system("FilterGear P1imagethr.pgm");*/
-	  
-	// Remosão de ruídos    **************Verificar se os comentarios fazem sentido com as funçoes que descreve
-	IVC* open = vc_image_new(image_inicial->width, image_inicial->height, image_inicial->channels, image_inicial->levels); // <-- definição de uma nova imagem com as dimensões da imagem inicial
-	vc_binary_open(image_inicial, open, 5);
-	// Confirmação dos resultados
-	/*vc_write_image("cloimage.pgm", open);
-	system("FilterGear cloimage.pgm");*/
-
-	// Erosão de certos pixels do cranio    **************Verificar se os comentarios fazem sentido com as funçoes que descreve
-	IVC* erode = vc_image_new(image_inicial->width, image_inicial->height, image_inicial->channels, image_inicial->levels); // <-- definição de uma nova imagem com as dimensões da imagem inicial
-	vc_binary_erode(open, erode, 5);
-	// Confirmação dos resultados
-	/*vc_write_image("cloimage.pgm", erode);
-	system("FilterGear cloimage.pgm");*/
-
-	// Remosão de ruídos    **************Verificar se os comentarios fazem sentido com as funçoes que descreve
-	IVC* open2 = vc_image_new(image_inicial->width, image_inicial->height, image_inicial->channels, image_inicial->levels); // <-- definição de uma nova imagem com as dimensões da imagem inicial
-	vc_binary_open(erode, open2, 5);
-	// Confirmação dos resultados
-	/*vc_write_image("cloimage.pgm", open2);
-	system("FilterGear cloimage.pgm");*/
-
-	// preenchimento de certas partes do centro do cerebro   **************Verificar se os comentarios fazem sentido com as funçoes que descreve
-	IVC* dilate = vc_image_new(image_inicial->width, image_inicial->height, image_inicial->channels, image_inicial->levels); // <-- definição de uma nova imagem com as dimensões da imagem inicial
-	vc_binary_dilate(open2, dilate, 5);
-	// Confirmação dos resultados
-	/*vc_write_image("dilate.pgm", dilate);
-	system("FilterGear dilate.pgm");*/
-
-
-	// Preenchimentos de falhas no perimetro do cerebro        **************Verificar se os comentarios fazem sentido com as funçoes que descreve
-	IVC* close = vc_image_new(image_inicial->width, image_inicial->height, image_inicial->channels, image_inicial->levels); // <-- definição de uma nova imagem com as dimensões da imagem inicial
-	vc_binary_dilate(dilate, close, 5);
-	// Confirmação dos resultados
-	/*vc_write_image("close.pgm", close);
-	system("FilterGear close.pgm");*/
-;	
-	// Carregar a imagem do cerebro para memória
-	IVC* image_final = vc_read_image("Images/img1.pgm");
-
-	// Removemos a estrutura do crânio
-	vc_transposal(close, image_final);
-
-
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//              Etiquetagem (Labelling) 
-
-	// Variaveis
-	int nlabels = 0;
-
-	IVC* labelling = vc_image_new(close->width, close->height, 1, 255); // <-- definição de uma nova imagem com as dimensões da imagem close
-
-	// Identificou-se os blobs
-	OVC* blobs = vc_binary_blob_labelling(close, labelling, &nlabels);
-
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//              Etiquetagem (BLOBS) 
-
-	// Obtenção da informação dos Blobs identificados
-	vc_binary_blob_info(labelling, blobs, nlabels);
-
-	printf("\n \n Dados do nucleo das celulas \n \n");
-	printf("Numero de celulas: %i \n", nlabels);
-
-	for (int i = 0; i < nlabels; i++) {
-
-		printf("Perimetro: %d \n", blobs[i].perimeter);
-		printf("Area: %d \n", blobs[i].area);
-		printf("Centro de massa: \n X = %d \t Y = %d \n \n", blobs[i].xc, blobs[i].yc);
-
-	}
-
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-	// Confirmação dos resultados
-	vc_write_image("image_final.pgm", image_final);
-	system("FilterGear image_final.pgm");
-
-	
 
 #pragma endregion
 
@@ -999,7 +1002,16 @@ system("FilterGear threshold.ppm");*/
 
 	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-	
+
+#pragma endregion
+
+#pragma endregion
+
+//implementação do funçoes lowpass
+#pragma region Aula12-05
+
+
+
 #pragma endregion
 
 

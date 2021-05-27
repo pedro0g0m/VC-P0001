@@ -1668,6 +1668,18 @@ int vc_gray_edge_sobel(IVC* src, IVC* dst, float th)
 	return 1;
 }
 
+int vc_gray_lowpass_mean_filter(IVC* src, IVC* dst) {
+
+	return 1;
+}
+
+
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//       FUNÇÕES: desenvolvidas para o trabalho Pratico 1
+// 
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 //Desenha em quadrado no blob encontrado
 int vc_perimeter_blobs(IVC* src, int bwidth, int bheight, int bx, int by)
 {
