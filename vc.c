@@ -1673,6 +1673,184 @@ int vc_gray_lowpass_mean_filter(IVC* src, IVC* dst) {
 	return 1;
 }
 
+//Filtro passo-alto básico de imagem gray
+int vc_gray_highpass_filter2(IVC* src, IVC* dst) //codigo do prof
+{
+	unsigned char* datasrc = (unsigned char*)src->data;
+	unsigned char* datadst = (unsigned char*)dst->data;
+	int width = src->width;
+	int height = src->height;
+	int bytesperline = src->bytesperline;
+	int channels = src->channels;
+	int x, y;
+	long int posX, posA, posB, posC, posD, posE, posF, posF, posG, posH;
+	int sum;
+
+	//Verificação de erros
+	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL))
+		return 0;
+
+	if ((src->width != dst->width) || (src->height != dst->height) || (src->channels != dst->channels))
+		return 0;
+
+	if (channels != 1)
+		return 0;
+
+	for (y = 1; y < height - 1; y++)
+	{
+		for (x = 1; x < width - 1; x++)
+		{
+			posA = (y - 1) * bytesperline + (x - 1) * channels;
+			posB = (y - 1) * bytesperline + x * channels;
+			posC = (y - 1) * bytesperline + (x + 1) * channels;
+			posD = y * bytesperline + (x - 1) * channels;
+			posX = y * bytesperline + x * channels;
+			posE = y * bytesperline + (x + 1) * channels;
+			posF = (y + 1) * bytesperline + (x - 1) * channels;
+			posG = (y + 1) * bytesperline + x * channels;
+			posH = (y + 1) * bytesperline + (x + 1) * channels;
+
+			sum = datasrc[posA] * -1;
+			sum += datasrc[posB] * -1;
+			sum += datasrc[posC] * -1;
+			sum += datasrc[posD] * -1;
+			sum += datasrc[posX] * 10;
+			sum += datasrc[posE] * -1;
+			sum += datasrc[posF] * -1;
+			sum += datasrc[posG] * -1;
+			sum += datasrc[posH] * -1;
+
+			datadst[posX] = (unsigned char)((float)abs(sum) / (float)9);
+		}
+	}
+	return 1;
+
+}
+
+int vc_gray_highpass_filter_enhance(IVC* src, IVC* dst)
+{
+	unsigned char* datasrc = (unsigned char*)src->data;
+	unsigned char* datadst = (unsigned char*)dst->data;
+	int width = src->width;
+	int height = src->height;
+	int bytesperline = src->bytesperline;
+	int channels = src->channels;
+	int x, y;
+	long int posX, posA, posB, posC, posD, posE, posF, posF, posG, posH;
+	int sum;
+
+	//Verificação de erros
+	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL))
+		return 0;
+
+	if ((src->width != dst->width) || (src->height != dst->height) || (src->channels != dst->channels))
+		return 0;
+
+	if (channels != 1)
+		return 0;
+
+	for (y = 1; y < height - 1; y++)
+	{
+		for (x = 1; x < width - 1; x++)
+		{
+			posA = (y - 1) * bytesperline + (x - 1) * channels;
+			posB = (y - 1) * bytesperline + x * channels;
+			posC = (y - 1) * bytesperline + (x + 1) * channels;
+			posD = y * bytesperline + (x - 1) * channels;
+			posX = y * bytesperline + x * channels;
+			posE = y * bytesperline + (x + 1) * channels;
+			posF = (y + 1) * bytesperline + (x - 1) * channels;
+			posG = (y + 1) * bytesperline + x * channels;
+			posH = (y + 1) * bytesperline + (x + 1) * channels;
+
+			sum = datasrc[posA] * -1;
+			sum += datasrc[posB] * -2;
+			sum += datasrc[posC] * -1;
+			sum += datasrc[posD] * -2;
+			sum += datasrc[posX] * 12;
+			sum += datasrc[posE] * -2;
+			sum += datasrc[posF] * -1;
+			sum += datasrc[posG] * -2;
+			sum += datasrc[posH] * -1;
+
+			//datadst[posX] = (unsigned char)((float)abs(sum) / (float)16);
+			datadst[posX] = (unsigned char)MIN(MAX((float)datasrc[posX] + ((float)sum / (float)16) * 6.0, 0), 255);
+		}
+	}
+
+	return 1;
+}
+
+//ver versao com o offset do prof e tentativa de resolução
+int vc_gray_lowpass_gaussian_filter(IVC* src, IVC* dst, int kernel, int sigma) // colcoar float sigma
+{
+
+	unsigned char* datasrc = (unsigned char*)src->data;
+	unsigned char* datadst = (unsigned char*)dst->data;
+	int width = src->width;
+	int height = src->height;
+
+	int bytesperline = src->bytesperline;
+	int channels = src->channels;
+
+	int x, y, kx, ky;
+	int offset = (kernel - 1) / 2;
+	int max, min, grayLevels = 256;
+	long int pos, posk, total;
+	float parte_1 = 0, parte_2 = 0;
+	unsigned char threshold;
+
+	//Verificação de erros
+	if ((src->width <= 0) || (src->height <= 0) || (src->data == NULL))
+		return 0;
+
+	if ((src->width != dst->width) || (src->height != dst->height) || (src->channels != dst->channels))
+		return 0;
+
+	if (channels != 1)
+		return 0;
+
+	for (y = 0; y < height; y++)
+	{
+		for (x = 0; x < width; x++)
+		{
+			pos = y * bytesperline + x * channels;
+
+			max = 0;
+			min = 255;
+
+			// NxM Vizinhos
+			for (ky = -offset; ky <= offset; ky++)
+			{
+				for (kx = -offset; kx <= offset; kx++)
+				{
+					if ((y + ky >= 0) && (y + ky < height) && (x + kx >= 0) && (x + kx < width))
+					{
+						posk = (y + ky) * bytesperline + (x + kx) * channels;
+
+						posk = (y + ky) * bytesperline + (x + kx) * channels;
+						parte_1 = (1 / (2 * 3, 14159 * sigma * sigma));
+						//printf("parte1 %d \n", parte_1);
+
+						parte_2 = exp(-(((kx * kx) + (ky * ky)) / (2 * sigma * sigma)));
+
+						total += parte_1 * parte_2 * datadst[posk];
+
+						//preciso normalizar..
+
+					}
+				}
+			}
+			//printf("total %d \n", total);
+			datadst[pos] = total;
+
+
+		}
+	}
+
+	return 1;
+}
+
 
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

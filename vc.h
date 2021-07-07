@@ -117,3 +117,9 @@ int vc_gray_select(IVC* srcdst, int tone);
 int vc_transposal(IVC* src, IVC* dst);
 
 int vc_gray_lowpass_mean_filter(IVC* src, IVC* dst);
+
+int vc_gray_lowpass_gaussian_filter(IVC* src, IVC* dst, int kernel, int sigma);
+
+int vc_gray_highpass_filter_enhance(IVC* src, IVC* dst);
+
+int vc_gray_highpass_filter2(IVC* src, IVC* dst);
